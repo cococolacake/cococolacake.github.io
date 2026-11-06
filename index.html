@@ -40,16 +40,18 @@
 
   /* ---------- header: pastel checkerboard, like the app's header patterns ---------- */
   .banner {
-    height: 180px;
-    background-image:
-      conic-gradient(rgba(255,255,255,.35) 25%, transparent 0 50%, rgba(255,255,255,.35) 0 75%, transparent 0),
-      linear-gradient(100deg, #FFC2DE 0%, #FFB3D6 30%, #D9C6F5 62%, #B9D6FF 100%);
-    background-size: 48px 48px, 100% 100%;
+    height: 180px; --tile: rgba(255,255,255,.35);
+    background-image: linear-gradient(100deg, #FFC2DE 0%, #FFB3D6 30%, #D9C6F5 62%, #B9D6FF 100%);
   }
   :root[data-theme="dark"] .banner {
-    background-image:
-      conic-gradient(rgba(255,255,255,.06) 25%, transparent 0 50%, rgba(255,255,255,.06) 0 75%, transparent 0),
-      linear-gradient(100deg, #5A2742 0%, #4E2846 30%, #3A3260 62%, #2A3D66 100%);
+    --tile: rgba(255,255,255,.06);
+    background-image: linear-gradient(100deg, #5A2742 0%, #4E2846 30%, #3A3260 62%, #2A3D66 100%);
+  }
+  /* the checkerboard sits on its own layer so it can slide */
+  .banner::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: conic-gradient(var(--tile) 25%, transparent 0 50%, var(--tile) 0 75%, transparent 0);
+    background-size: 48px 48px;
   }
   .top { position: relative; display: flex; justify-content: flex-end; padding-top: 16px; }
   .theme-btn {
@@ -64,7 +66,7 @@
   .intro { margin-top: -84px; position: relative; }
   .avatar {
     width: 132px; height: 132px; border-radius: 36px; background: linear-gradient(150deg, #FFE0EE, #DCEBFF);
-    display: grid; place-items: center;
+    display: grid; place-items: center; padding: 0;
     box-shadow: var(--shadow); border: 6px solid var(--bg); letter-spacing: -1px;
   }
   h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1px; margin: 20px 0 8px; }
@@ -124,6 +126,70 @@
   section:nth-of-type(even) h2 .heart { fill: var(--sky); }
   footer { margin: 8px 0 40px; color: var(--text-3); font-size: 14px; text-align: center; }
 
+
+  /* =====================================================================
+     Animations: all light CSS, and all switched off for "reduce motion".
+     ===================================================================== */
+  :root { --spring: cubic-bezier(.34, 1.56, .64, 1); }
+
+  /* --- load-in: header slides down, gem pops, the rest rises in turn --- */
+  @keyframes drop-in   { from { transform: translateY(-100%); } }
+  @keyframes rise-in   { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+  @keyframes pop-in    { 0% { opacity: 0; scale: .3; } 60% { opacity: 1; scale: 1.12; } 80% { scale: .96; } 100% { scale: 1; } }
+  .banner              { animation: drop-in .7s var(--spring) both; }
+  .theme-btn           { animation: pop-in .6s .5s both; }
+  .avatar              { animation: pop-in .8s .25s both; }
+  .load                { animation: rise-in .7s var(--spring) both; animation-delay: calc(.45s + var(--i, 0) * .09s); }
+
+  /* --- 1. twinkling, floating header sprinkles --- */
+  @keyframes float     { 50% { translate: 0 -7px; } }
+  @keyframes twinkle   { 0%, 100% { opacity: .95; scale: 1; } 50% { opacity: .45; scale: .78; } }
+  .banner .sprinkle    { animation: float 4.2s ease-in-out infinite, twinkle 2.6s ease-in-out infinite; }
+  .banner .sprinkle:nth-child(3n)   { animation-duration: 5.4s, 3.3s; animation-delay: -1.2s, -.7s; }
+  .banner .sprinkle:nth-child(3n+1) { animation-duration: 3.6s, 2.1s; animation-delay: -2.1s, -1.6s; }
+  .banner .sprinkle:nth-child(4n)   { animation-delay: -.4s, -2.4s; }
+
+  /* --- 6. checkerboard slowly slides diagonally --- */
+  @keyframes slide     { to { background-position: 48px 48px; } }
+  .banner::before      { animation: slide 6s linear infinite; }
+  .banner .sprinkle { z-index: 1; }
+
+  /* --- 2. bouncy gem: gentle sway, wobble + shine on hover --- */
+  @keyframes sway      { 50% { rotate: -5deg; translate: 0 -3px; } }
+  @keyframes wobble    { 0%,100% { rotate: 0; } 20% { rotate: -12deg; scale: 1.08; } 40% { rotate: 10deg; } 60% { rotate: -6deg; } 80% { rotate: 3deg; } }
+  @keyframes shine     { from { translate: -120% 0; } to { translate: 120% 0; } }
+  .avatar { position: relative; overflow: hidden; cursor: pointer; }
+  .avatar img { animation: sway 3.8s ease-in-out 1.2s infinite; }
+  .avatar:hover img, .avatar.boop img { animation: wobble .7s ease-in-out; }
+  .avatar::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; translate: -120% 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.75) 48%, transparent 66%);
+  }
+  .avatar:hover::after, .avatar.boop::after { animation: shine .8s ease-out; }
+
+  /* --- 5. squishy buttons --- */
+  .pill, .btn, .theme-btn, .mini { transition: transform .35s var(--spring), filter .2s; }
+  .pill:hover, .mini:hover { transform: translateY(-2px); }
+  .btn:hover { transform: translateY(-2px); }
+  .pill:active, .btn:active, .mini:active { transform: scale(.94); transition-duration: .08s; }
+  .theme-btn:active { transform: scale(.88); transition-duration: .08s; }
+  @keyframes pulse     { 50% { scale: 1.6; } }
+  .pill:hover .dot     { animation: pulse .6s var(--spring); }
+
+  /* --- 7. theme toggle: moon spins into a sun (and back) --- */
+  .theme-btn svg { grid-area: 1 / 1; transition: rotate .5s var(--spring), scale .5s var(--spring), opacity .3s; }
+  .theme-btn .sun { rotate: -90deg; scale: 0; opacity: 0; }
+  :root[data-theme="dark"] .theme-btn .moon { rotate: 90deg; scale: 0; opacity: 0; }
+  :root[data-theme="dark"] .theme-btn .sun  { rotate: 0deg; scale: 1; opacity: 1; }
+  .theme-btn { overflow: visible; }
+
+  /* --- 3. sprinkle pop: bits spawned by the script below --- */
+  .pop-bit { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 50; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
   @media (max-width: 720px) {
     h1 { font-size: 34px; }
     .project, .grid2 { grid-template-columns: 1fr; }
@@ -160,22 +226,23 @@
   <div class="wrap">
     <div class="top">
       <button class="theme-btn" type="button" aria-label="Switch light or dark theme" onclick="toggleTheme()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
       </button>
     </div>
 
     <header class="intro">
-      <div class="avatar"><img src="assets/heart-gem.svg" alt="" width="104" height="104"></div>
-      <h1>Hiya, I'm Coco!</h1>
-      <p class="lead">Illustrator and artist who fell down the AI rabbit hole. I train LoRAs and make simple tools for training them.</p>
-      <nav class="links" aria-label="Find me elsewhere">
+      <button class="avatar" type="button" aria-label="Sprinkle party!"><img src="assets/heart-gem.svg" alt="" width="104" height="104"></button>
+      <h1 class="load" style="--i:0">Hiya, I'm Coco!</h1>
+      <p style="--i:1" class="load lead">Illustrator and artist who fell down the AI rabbit hole. I train LoRAs and make cute, simple tools for training them.</p>
+      <nav style="--i:2" class="load links" aria-label="Find me elsewhere">
         <a class="pill" href="https://github.com/cococolacake"><span class="dot" style="background: var(--gem)"></span>GitHub</a>
         <a class="pill" href="https://civitai.com/user/cococolacake"><span class="dot" style="background: var(--sky)"></span>Civitai</a>
         <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="dot" style="background: var(--rose)"></span>LoRA Studio</a>
       </nav>
     </header>
 
-    <section class="about" aria-labelledby="about-h">
+    <section style="--i:3" class="load about" aria-labelledby="about-h">
       <h2 id="about-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>About me</h2>
       <div class="card has-badge">
         <svg class="winged" viewBox="0 0 64 40" aria-hidden="true">
@@ -184,10 +251,11 @@
           <path d="M32 36s-12-7-14.5-14C15.8 16.6 19 11 24.6 11c3.4 0 5.9 2 7.4 4.3C33.5 13 36 11 39.4 11 45 11 48.2 16.6 46.5 22 44 29 32 36 32 36z" fill="var(--rose)"/>
         </svg>
         <p>I'm an artist first, and I still am! A couple of years ago I got curious about AI and machine learning, and taught myself how to train LoRAs from scratch.</p>
+        <p>The learning curve was steep, so now I like making things that make it easier: tools that feel friendly even if you've never trained anything before.</p>
       </div>
     </section>
 
-    <section aria-labelledby="proj-h">
+    <section class="load" style="--i:4" aria-labelledby="proj-h">
       <h2 id="proj-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Projects</h2>
       <div class="card project">
         <div>
@@ -198,7 +266,7 @@
               <p class="sub">Windows &amp; Linux · free &amp; open source</p>
             </div>
           </div>
-          <p>A simple desktop app for training LoRAs with kohya-ss/sd-scripts. Live loss graph, training queue, dataset tools, sample grids, and one-click sending to SwarmUI or ComfyUI.</p>
+          <p>A soft, simple desktop app for training LoRAs with kohya-ss/sd-scripts. Live loss graph, training queue, dataset tools, sample grids, and one-click sending to SwarmUI or ComfyUI.</p>
           <div class="tags"><span class="tag">Anima</span><span class="tag">FLUX</span><span class="tag">SDXL</span><span class="tag">SD 1.5</span></div>
           <a class="btn" href="https://github.com/cococolacake/lora-studio">Get it on GitHub
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -210,7 +278,7 @@
       </div>
     </section>
 
-    <section aria-labelledby="more-h">
+    <section class="load" style="--i:5" aria-labelledby="more-h">
       <h2 id="more-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Find my stuff</h2>
       <div class="grid2">
         <a class="card mini" href="https://civitai.com/user/cococolacake">
@@ -230,7 +298,7 @@
       </div>
     </section>
 
-    <div class="confetti" aria-hidden="true">
+    <div style="--i:6" class="load confetti" aria-hidden="true">
       <svg class="sprinkle" viewBox="0 0 24 24" style="left:75.3%;top:14.1%;width:12px;height:12px;color:var(--rose);transform:rotate(8deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:48.5%;top:33.4%;width:13px;height:13px;color:var(--sky);transform:rotate(-7deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:59.2%;top:13.4%;width:14px;height:14px;color:var(--aqua);transform:rotate(1deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
@@ -242,9 +310,58 @@
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.5%;top:12.8%;width:15px;height:15px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:31.1%;top:50.8%;width:15px;height:15px;color:#FFFFFF;transform:rotate(3deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
     </div>
-    <footer>Made with ♡ by Coco (•ᴗ-)</footer>
+    <footer class="load" style="--i:7">Made with ♡ by Coco (•ᴗ-)</footer>
   </div>
 <script>
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var HEART = "M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z";
+  var STAR = "M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z";
+  var COLORS = ["#FF8FC4", "#9CC6FF", "#6FE3D4", "#B79BFF", "#FFC54D", "#FF6FAF"];
+
+  // 3. Sprinkle pop: a little burst of sprinkles, hearts and stars where you click.
+  function burst(x, y, count) {
+    if (calm) return;
+    for (var i = 0; i < count; i++) {
+      var bit, kind = i % 3, color = COLORS[i % COLORS.length];
+      if (kind === 0) {
+        bit = document.createElement("span");
+        bit.style.cssText = "width:9px;height:3.5px;border-radius:2px;background:" + color;
+      } else {
+        bit = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        bit.setAttribute("viewBox", "0 0 24 24");
+        bit.setAttribute("width", kind === 1 ? 14 : 12);
+        bit.setAttribute("height", kind === 1 ? 14 : 12);
+        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", kind === 1 ? HEART : STAR);
+        path.setAttribute("fill", color);
+        bit.appendChild(path);
+      }
+      bit.setAttribute("class", "pop-bit");
+      bit.setAttribute("aria-hidden", "true");
+      document.body.appendChild(bit);
+      var angle = Math.random() * Math.PI * 2, dist = 40 + Math.random() * 70;
+      var dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist - 20;
+      var spin = (Math.random() * 360 - 180) + "deg";
+      var anim = bit.animate([
+        { transform: "translate(" + x + "px," + y + "px) scale(.4) rotate(0deg)", opacity: 1 },
+        { transform: "translate(" + (x + dx) + "px," + (y + dy) + "px) scale(1) rotate(" + spin + ")", opacity: 1, offset: .55 },
+        { transform: "translate(" + (x + dx * 1.15) + "px," + (y + dy + 60) + "px) scale(.8) rotate(" + spin + ")", opacity: 0 }
+      ], { duration: 900 + Math.random() * 400, easing: "cubic-bezier(.2,.7,.3,1)" });
+      anim.onfinish = (function (el) { return function () { el.remove(); }; })(bit);
+    }
+  }
+  document.addEventListener("pointerdown", function (e) { burst(e.clientX, e.clientY, 10); });
+
+  // The gem: a bigger burst and a wobble when you click (or press Enter on) it.
+  var avatar = document.querySelector(".avatar");
+  avatar.addEventListener("click", function (e) {
+    var r = avatar.getBoundingClientRect();
+    if (e.detail === 0) burst(r.left + r.width / 2, r.top + r.height / 2, 18);  // keyboard
+    else burst(r.left + r.width / 2, r.top + r.height / 2, 8);                  // the click already made 10
+    avatar.classList.remove("boop"); void avatar.offsetWidth; avatar.classList.add("boop");
+  });
+  avatar.addEventListener("animationend", function () { avatar.classList.remove("boop"); });
+
   function toggleTheme() {
     var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
