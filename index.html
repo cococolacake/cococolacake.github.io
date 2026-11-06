@@ -191,9 +191,35 @@
   }
 
   @media (max-width: 720px) {
-    h1 { font-size: 34px; }
     .project, .grid2 { grid-template-columns: 1fr; }
-    .card { padding: 22px; }
+  }
+  /* phones: everything a bit smaller, so it doesn't feel zoomed in */
+  @media (max-width: 520px) {
+    body { font-size: 15px; }
+    .wrap { padding: 0 18px; }
+    .banner { height: 120px; }
+    .theme-btn { top: -104px; right: 18px; }
+    .intro { margin-top: -58px; }
+    .avatar { width: 96px; height: 96px; border-radius: 28px; border-width: 5px; }
+    .avatar img { width: 76px; height: 76px; }
+    h1 { font-size: 28px; margin: 14px 0 6px; letter-spacing: -.6px; }
+    .lead { font-size: 16px; line-height: 1.55; }
+    .links { gap: 8px; margin-top: 16px; }
+    .pill { font-size: 14px; padding: 8px 14px; }
+    section { margin-top: 36px; }
+    h2 { font-size: 12px; margin-bottom: 10px; }
+    .card { padding: 18px; border-radius: 22px; }
+    .project { gap: 18px; }
+    .project-head img { width: 46px; height: 46px; border-radius: 13px; }
+    .project h3 { font-size: 20px; }
+    .project p { margin: 12px 0; }
+    .tags { margin-bottom: 16px; }
+    .mini h3 { font-size: 16px; margin-top: 8px; }
+    .mini p { font-size: 14px; }
+    .chip { width: 38px; height: 38px; border-radius: 12px; }
+    .chip svg { width: 19px; height: 19px; }
+    .winged { width: 50px; height: 31px; top: -17px; right: 16px; }
+    .confetti { height: 50px; margin-top: 32px; }
   }
 </style>
 <script>
