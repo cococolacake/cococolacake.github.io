@@ -186,6 +186,23 @@
   /* --- 3. sprinkle pop: bits spawned by the script below --- */
   .pop-bit { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 50; }
 
+
+  /* --- sprinkle pit (computers with a mouse only) --- */
+  .pit { display: none; }
+  @media (min-width: 721px) and (hover: hover) and (pointer: fine) {
+    .confetti { display: none; }
+    .pit {
+      display: block; position: relative; height: 170px; margin-top: 56px;
+      border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .pit canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+    .pit canvas:active { cursor: grabbing; }
+    .pit-hint {
+      position: absolute; top: 14px; left: 0; right: 0; text-align: center; pointer-events: none;
+      font-size: 13px; font-weight: 600; color: var(--text-3); letter-spacing: .02em;
+    }
+    footer { margin-top: 20px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -335,6 +352,7 @@
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.5%;top:12.8%;width:15px;height:15px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
     <svg class="sprinkle" viewBox="0 0 24 24" style="left:31.1%;top:50.8%;width:15px;height:15px;color:#FFFFFF;transform:rotate(3deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
     </div>
+    <div class="pit load" style="--i:6" aria-hidden="true"><canvas></canvas><span class="pit-hint">poke the sprinkles ♡</span></div>
     <footer class="load" style="--i:7">Made with ♡ by Coco (•ᴗ-)</footer>
   </div>
 <script>
@@ -386,6 +404,130 @@
     avatar.classList.remove("boop"); void avatar.offsetWidth; avatar.classList.add("boop");
   });
   avatar.addEventListener("animationend", function () { avatar.classList.remove("boop"); });
+
+  // Sprinkle pit: a little physics tray of sprinkles, hearts and stars that move away from the mouse.
+  (function () {
+    var box = document.querySelector(".pit"), canvas = box && box.querySelector("canvas");
+    if (!canvas || getComputedStyle(box).display === "none") return;
+    var ctx = canvas.getContext("2d"), W = 0, H = 0, dpr = 1;
+    var PALETTE = ["#FF8FC4", "#9CC6FF", "#6FE3D4", "#B79BFF", "#FFC54D", "#FF6FAF", "#7DB3FF"];
+    var heartPath = new Path2D(HEART), starPath = new Path2D(STAR);
+    var bits = [], mouse = null, running = false, visible = false, filled = false;
+
+    function size() {
+      var r = canvas.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height; canvas.width = W * dpr; canvas.height = H * dpr;
+    }
+    function fill() {
+      filled = true;
+      var n = Math.round(W / 7.5);
+      for (var i = 0; i < n; i++) {
+        var kind = i % 4, r = 12 + Math.random() * 4;
+        bits.push({ x: 12 + Math.random() * (W - 24), y: -20 - Math.random() * 520, vx: (Math.random() - .5) * 2, vy: Math.random() * 2,
+                    r: r, kind: kind, color: PALETTE[i % PALETTE.length], rot: Math.random() * 6.28, vr: 0 });
+      }
+    }
+    function step() {
+      var g = .16, MAX = 3.2, R = 60, i, j, b, c;
+      for (i = 0; i < bits.length; i++) {
+        b = bits[i];
+        if (mouse) {                                       // the mouse wakes and gently pushes nearby sprinkles
+          var dx = b.x - mouse.x, dy = b.y - mouse.y, d2 = dx * dx + dy * dy;
+          if (d2 < R * R) {
+            var d = Math.sqrt(d2) || 1, push = (R - d) / R;
+            b.asleep = false; b.still = 0; b.ax = undefined;
+            b.vx += dx / d * push * .9 + mouse.vx * push * .05;
+            b.vy += dy / d * push * .9 + mouse.vy * push * .05 - push * .35;
+          }
+        }
+        if (b.asleep) continue;
+        b.vy += g;
+        b.vx *= .96; b.vy *= .985;                         // a little air drag, so motion stays slow and floaty
+        var sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+        if (sp > MAX) { b.vx *= MAX / sp; b.vy *= MAX / sp; }
+        b.x += b.vx; b.y += b.vy;
+        if (b.y > H - b.r) { b.y = H - b.r; b.vy *= -.1; b.vx *= .9; }
+        if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * .3; }
+        if (b.x > W - b.r) { b.x = W - b.r; b.vx = -Math.abs(b.vx) * .3; }
+        b.vr = b.vr * .9 + b.vx * .015; b.rot += b.vr;
+      }
+      for (var pass = 0; pass < 2; pass++) {               // keep them from overlapping
+        for (i = 0; i < bits.length; i++) for (j = i + 1; j < bits.length; j++) {
+          b = bits[i]; c = bits[j];
+          if (b.asleep && c.asleep) continue;
+          var ex = c.x - b.x, ey = c.y - b.y, min = (b.r + c.r) * .9, e2 = ex * ex + ey * ey;
+          if (e2 >= min * min || e2 < .0001) continue;
+          var e = Math.sqrt(e2), o = min - e, nx = ex / e, ny = ey / e;
+          var rv = (c.vx - b.vx) * nx + (c.vy - b.vy) * ny;
+          if (b.asleep || c.asleep) {                      // a resting sprinkle acts like solid ground...
+            var awake = b.asleep ? c : b, rest = b.asleep ? b : c, sgn = b.asleep ? 1 : -1;
+            if (Math.abs(rv) > 1.6) { rest.asleep = false; rest.still = 0; rest.ax = undefined; }   // ...unless bumped hard
+            awake.x += nx * o * sgn; awake.y += ny * o * sgn;
+            var vn = awake.vx * nx * sgn + awake.vy * ny * sgn;
+            if (vn < 0) { awake.vx -= nx * sgn * vn * 1.1; awake.vy -= ny * sgn * vn * 1.1; }
+          } else {
+            b.x -= nx * o / 2; b.y -= ny * o / 2; c.x += nx * o / 2; c.y += ny * o / 2;
+            if (rv < 0) { var k = rv * .5; b.vx += nx * k; b.vy += ny * k; c.vx -= nx * k; c.vy -= ny * k; }
+          }
+        }
+      }
+      for (i = 0; i < bits.length; i++) {                  // stayed in the same spot for a moment? fall asleep
+        b = bits[i]; if (b.asleep) continue;
+        if (b.ax === undefined || Math.abs(b.x - b.ax) + Math.abs(b.y - b.ay) > 1.5) { b.ax = b.x; b.ay = b.y; b.still = 0; }
+        else if (++b.still > 18) { b.asleep = true; b.vx = b.vy = b.vr = 0; b.x = b.ax; b.y = b.ay; }
+      }
+    }
+    function draw() {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < bits.length; i++) {
+        var b = bits[i]; ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.rot); ctx.fillStyle = b.color;
+        if (b.kind === 0 || b.kind === 3) {               // sprinkles: little rounded rods
+          var L = b.r * 2.1, T = b.r * .8; ctx.beginPath();
+          if (ctx.roundRect) ctx.roundRect(-L / 2, -T / 2, L, T, T / 2); else ctx.rect(-L / 2, -T / 2, L, T);
+          ctx.fill();
+        } else {
+          var s = b.r / 10; ctx.scale(s, s); ctx.translate(-12, -12);
+          ctx.fill(b.kind === 1 ? heartPath : starPath);
+        }
+        ctx.restore();
+      }
+    }
+    function loop() {
+      if (!visible) { running = false; return; }
+      step(); draw();
+      var awake = 0; for (var i = 0; i < bits.length; i++) if (!bits[i].asleep) awake++;
+      if (awake === 0) { running = false; return; }        // every sprinkle is resting: stop drawing
+      requestAnimationFrame(loop);
+    }
+    function wake() { if (!running && visible) { running = true; requestAnimationFrame(loop); } }
+
+    size();
+    if (calm) {                                            // reduce motion: a still pile, drawn once
+      fill(); for (var t = 0; t < 900; t++) step(); draw(); return;
+    }
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting;
+      if (visible) { if (!filled) fill(); wake(); }
+    }, { threshold: .2 }).observe(box);
+
+    canvas.addEventListener("pointermove", function (e) {
+      var r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      mouse = mouse ? { x: x, y: y, vx: x - mouse.x, vy: y - mouse.y } : { x: x, y: y, vx: 0, vy: 0 };
+      wake();
+    });
+    canvas.addEventListener("pointerleave", function () { mouse = null; });
+    canvas.addEventListener("pointerdown", function (e) {   // a click makes a little explosion
+      var r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      bits.forEach(function (b) {
+        var dx = b.x - x, dy = b.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (d < 120) { var f = (120 - d) / 120 * 4.5; b.asleep = false; b.still = 0; b.ax = undefined; b.vx += dx / d * f; b.vy += dy / d * f - f * .5; }
+      });
+      wake();
+    });
+    window.addEventListener("resize", function () {
+      var oldW = W; size(); bits.forEach(function (b) { b.x = b.x * W / (oldW || W); }); wake();
+    });
+  })();
 
   function toggleTheme() {
     var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
