@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coco (•ᴗ-) · illustrator &amp; LoRA trainer</title>
+<meta name="description" content="Coco: illustrator and artist who trains LoRAs and made LoRA Studio, a soft, simple UI for kohya-ss/sd-scripts.">
+<link rel="icon" href="assets/heart-gem.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<meta property="og:title" content="Coco (•ᴗ-)">
+<meta property="og:description" content="Illustrator, LoRA trainer, and maker of LoRA Studio.">
+<meta property="og:image" content="assets/lora-studio-home.jpg">
+<style>
+  /* ---------- colors: same neutrals and pastels as LoRA Studio ---------- */
+  :root {
+    --bg: #F2F2F3; --surface: #FFFFFF; --surface-2: #F6F6F7; --line: rgba(17,17,20,.08);
+    --text: #17171A; --text-2: #55555D; --text-3: #75757E;
+    /* Mizi palette: pink hair fading into pastel blue */
+    --rose: #FF8FC4; --rose-soft: #FFEAF4; --rose-tile: #FFDCEC; --rose-text: #C2306F;
+    --sky: #9CC6FF; --sky-soft: #E8F2FF; --sky-text: #2F6FD0;
+    --gem: #3346A8; --aqua: #6FE3D4; --lilac: #B79BFF;
+    --shadow: 0 1px 2px rgba(15,15,20,.04), 0 8px 24px rgba(15,15,20,.06);
+    --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D0E14; --surface: #171923; --surface-2: #20232F; --line: rgba(255,255,255,.07);
+    --text: #F2F2F6; --text-2: #B6B8C6; --text-3: #8B8EA0;
+    --rose-soft: #2B1824; --rose-tile: #3A1F30; --rose-text: #FF8FC4;
+    --sky-soft: #172238; --sky-text: #9CC6FF; --aqua: #4FD8C6;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6; }
+  a { color: var(--rose-text); text-underline-offset: 3px; }
+  a:hover { color: var(--text); }
+  img { max-width: 100%; height: auto; display: block; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- header: pastel checkerboard, like the app's header patterns ---------- */
+  .banner {
+    height: 180px;
+    background-image:
+      conic-gradient(rgba(255,255,255,.35) 25%, transparent 0 50%, rgba(255,255,255,.35) 0 75%, transparent 0),
+      linear-gradient(100deg, #FFC2DE 0%, #FFB3D6 30%, #D9C6F5 62%, #B9D6FF 100%);
+    background-size: 48px 48px, 100% 100%;
+  }
+  :root[data-theme="dark"] .banner {
+    background-image:
+      conic-gradient(rgba(255,255,255,.06) 25%, transparent 0 50%, rgba(255,255,255,.06) 0 75%, transparent 0),
+      linear-gradient(100deg, #5A2742 0%, #4E2846 30%, #3A3260 62%, #2A3D66 100%);
+  }
+  .top { position: relative; display: flex; justify-content: flex-end; padding-top: 16px; }
+  .theme-btn {
+    position: absolute; top: -164px; right: 24px;
+    width: 44px; height: 44px; border-radius: 999px; border: 0; cursor: pointer;
+    background: var(--surface); color: var(--text); box-shadow: var(--shadow);
+    display: grid; place-items: center;
+  }
+  .theme-btn svg { width: 20px; height: 20px; }
+
+  /* ---------- intro ---------- */
+  .intro { margin-top: -84px; position: relative; }
+  .avatar {
+    width: 132px; height: 132px; border-radius: 36px; background: linear-gradient(150deg, #FFE0EE, #DCEBFF);
+    display: grid; place-items: center;
+    box-shadow: var(--shadow); border: 6px solid var(--bg); letter-spacing: -1px;
+  }
+  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1px; margin: 20px 0 8px; }
+  .lead { font-size: 19px; color: var(--text-2); margin: 0; max-width: 620px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 44px;
+    border-radius: 999px; background: var(--surface); color: var(--text); text-decoration: none;
+    font-weight: 600; font-size: 15px; box-shadow: var(--shadow);
+  }
+  .pill:hover { color: var(--text); transform: translateY(-1px); }
+  .dot { width: 9px; height: 9px; border-radius: 99px; flex: none; }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 56px; }
+  h2::before { content: ""; display: inline-block; width: 18px; height: 6px; border-radius: 99px; margin-right: 10px; vertical-align: middle; background: linear-gradient(90deg, var(--rose), var(--sky)); }
+  h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin: 0 0 14px; font-weight: 700; }
+  .card { background: var(--surface); border-radius: 26px; box-shadow: var(--shadow); padding: 28px; }
+  .about p { margin: 0 0 12px; color: var(--text-2); }
+  .about p:last-child { margin-bottom: 0; }
+
+  .project { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; align-items: center; }
+  .project-head { display: flex; align-items: center; gap: 14px; }
+  .project-head img { width: 56px; height: 56px; border-radius: 16px; flex: none; }
+  .project h3 { margin: 0; font-size: 24px; letter-spacing: -.4px; }
+  .project .sub { margin: 0; color: var(--text-3); font-size: 14px; }
+  .project p { color: var(--text-2); margin: 16px 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .tag { font-size: 13px; font-weight: 600; padding: 4px 11px; border-radius: 999px; background: var(--sky-soft); color: var(--sky-text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px;
+    border-radius: 999px; background: var(--rose); color: #4A0F2C; font-weight: 700; text-decoration: none;
+  }
+  .btn:hover { color: #4A0F2C; filter: brightness(1.04); }
+  .shots { position: relative; }
+  .shots img { border-radius: 16px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .mini { display: block; text-decoration: none; color: var(--text); }
+  .mini:hover { color: var(--text); transform: translateY(-1px); }
+  .mini h3 { margin: 10px 0 4px; font-size: 18px; }
+  .mini p { margin: 0; color: var(--text-2); font-size: 15px; }
+  .chip { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; }
+  .chip svg { width: 22px; height: 22px; }
+
+
+  /* ---------- hearts & sprinkles ---------- */
+  .banner { position: relative; overflow: hidden; }
+  .sprinkle { position: absolute; fill: currentColor; opacity: .9; filter: drop-shadow(0 1px 0 rgba(255,255,255,.5)); }
+  :root[data-theme="dark"] .avatar { background: linear-gradient(150deg, #2B1824, #172238); }
+  :root[data-theme="dark"] .sprinkle { filter: none; opacity: .85; }
+  .confetti { position: relative; height: 70px; margin-top: 48px; }
+  .has-badge { position: relative; }
+  .winged { position: absolute; top: -22px; right: 22px; width: 64px; height: 40px; transform: rotate(8deg); }
+  h2::before { content: none; }
+  h2 .heart { width: 14px; height: 14px; vertical-align: -2px; margin-right: 8px; fill: var(--rose); }
+  section:nth-of-type(even) h2 .heart { fill: var(--sky); }
+  footer { margin: 8px 0 40px; color: var(--text-3); font-size: 14px; text-align: center; }
+
+  @media (max-width: 720px) {
+    h1 { font-size: 34px; }
+    .project, .grid2 { grid-template-columns: 1fr; }
+    .card { padding: 22px; }
+  }
+</style>
+<script>
+  // Remember light/dark; otherwise follow the system setting.
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem("theme"); } catch (e) {}
+    var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  })();
+</script>
+</head>
+<body>
+  <div class="banner" aria-hidden="true">
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:32.4%;top:19.2%;width:22px;height:22px;color:var(--rose);transform:rotate(-22deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:8.8%;top:47.7%;width:17px;height:17px;color:var(--sky);transform:rotate(12deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:7.5%;top:45.6%;width:12px;height:12px;color:var(--aqua);transform:rotate(-20deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:42.8%;top:13.2%;width:13px;height:13px;color:var(--lilac);transform:rotate(10deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:41.9%;top:69.2%;width:13px;height:13px;color:#FFFFFF;transform:rotate(-11deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:61.3%;top:51.1%;width:12px;height:12px;color:var(--rose);transform:rotate(11deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:57.0%;top:11.7%;width:15px;height:15px;color:var(--sky);transform:rotate(-23deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:54.3%;top:17.9%;width:18px;height:18px;color:var(--aqua);transform:rotate(-16deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:52.8%;top:50.2%;width:20px;height:20px;color:var(--lilac);transform:rotate(18deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:19.0%;top:51.0%;width:22px;height:22px;color:#FFFFFF;transform:rotate(-13deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:37.0%;top:48.5%;width:13px;height:13px;color:var(--rose);transform:rotate(11deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:7.6%;top:23.2%;width:22px;height:22px;color:var(--sky);transform:rotate(9deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:42.2%;top:31.2%;width:21px;height:21px;color:var(--aqua);transform:rotate(4deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:36.0%;top:26.4%;width:14px;height:14px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+  </div>
+  <div class="wrap">
+    <div class="top">
+      <button class="theme-btn" type="button" aria-label="Switch light or dark theme" onclick="toggleTheme()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+
+    <header class="intro">
+      <div class="avatar"><img src="assets/heart-gem.svg" alt="" width="104" height="104"></div>
+      <h1>Hiya, I'm Coco!</h1>
+      <p class="lead">Illustrator and artist who fell down the AI rabbit hole. I train LoRAs and make cute, simple tools for training them.</p>
+      <nav class="links" aria-label="Find me elsewhere">
+        <a class="pill" href="https://github.com/cococolacake"><span class="dot" style="background: var(--gem)"></span>GitHub</a>
+        <a class="pill" href="https://civitai.com/user/cococolacake"><span class="dot" style="background: var(--sky)"></span>Civitai</a>
+        <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="dot" style="background: var(--rose)"></span>LoRA Studio</a>
+      </nav>
+    </header>
+
+    <section class="about" aria-labelledby="about-h">
+      <h2 id="about-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>About me</h2>
+      <div class="card has-badge">
+        <svg class="winged" viewBox="0 0 64 40" aria-hidden="true">
+          <path d="M20 20c-6-8-15-9-19-5 3 0 5 2 5 2-4 1-5 5-5 5 4-2 8-1 8-1-2 2-2 5-2 5 5-3 10-3 13-6z" fill="var(--aqua)"/>
+          <path d="M44 20c6-8 15-9 19-5-3 0-5 2-5 2 4 1 5 5 5 5-4-2-8-1-8-1 2 2 2 5 2 5-5-3-10-3-13-6z" fill="var(--aqua)"/>
+          <path d="M32 36s-12-7-14.5-14C15.8 16.6 19 11 24.6 11c3.4 0 5.9 2 7.4 4.3C33.5 13 36 11 39.4 11 45 11 48.2 16.6 46.5 22 44 29 32 36 32 36z" fill="var(--rose)"/>
+        </svg>
+        <p>I'm an artist first, and I still am! A couple of years ago I got curious about AI and machine learning, and taught myself how to train LoRAs from scratch.</p>
+        <p>The learning curve was steep, so now I like making things that make it easier: tools that feel friendly even if you've never trained anything before.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="proj-h">
+      <h2 id="proj-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Projects</h2>
+      <div class="card project">
+        <div>
+          <div class="project-head">
+            <img src="assets/lora-studio-icon.png" alt="">
+            <div>
+              <h3>LoRA Studio</h3>
+              <p class="sub">Windows &amp; Linux · free &amp; open source</p>
+            </div>
+          </div>
+          <p>A soft, simple desktop app for training LoRAs with kohya-ss/sd-scripts. Live loss graph, training queue, dataset tools, sample grids, and one-click sending to SwarmUI or ComfyUI.</p>
+          <div class="tags"><span class="tag">Anima</span><span class="tag">FLUX</span><span class="tag">SDXL</span><span class="tag">SD 1.5</span></div>
+          <a class="btn" href="https://github.com/cococolacake/lora-studio">Get it on GitHub
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="shots">
+          <img src="assets/lora-studio-home.jpg" alt="LoRA Studio's home screen with recent runs and a loss graph" width="1200" height="750">
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="more-h">
+      <h2 id="more-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Find my stuff</h2>
+      <div class="grid2">
+        <a class="card mini" href="https://civitai.com/user/cococolacake">
+          <div class="chip" style="background: var(--sky-soft); color: var(--sky-text)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>
+          </div>
+          <h3>My LoRAs</h3>
+          <p>Character and style LoRAs, mostly for Anima, on Civitai.</p>
+        </a>
+        <a class="card mini" href="https://github.com/cococolacake">
+          <div class="chip" style="background: var(--rose-soft); color: var(--rose-text)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+          </div>
+          <h3>Code</h3>
+          <p>LoRA Studio and whatever I'm tinkering with next, on GitHub.</p>
+        </a>
+      </div>
+    </section>
+
+    <div class="confetti" aria-hidden="true">
+      <svg class="sprinkle" viewBox="0 0 24 24" style="left:75.3%;top:14.1%;width:12px;height:12px;color:var(--rose);transform:rotate(8deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:48.5%;top:33.4%;width:13px;height:13px;color:var(--sky);transform:rotate(-7deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:59.2%;top:13.4%;width:14px;height:14px;color:var(--aqua);transform:rotate(1deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:17.5%;top:33.3%;width:13px;height:13px;color:var(--lilac);transform:rotate(1deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:5.7%;top:57.4%;width:16px;height:16px;color:#FFFFFF;transform:rotate(10deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:55.9%;top:72.8%;width:12px;height:12px;color:var(--rose);transform:rotate(-4deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.4%;top:52.0%;width:14px;height:14px;color:var(--sky);transform:rotate(4deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:8.5%;top:14.9%;width:12px;height:12px;color:var(--aqua);transform:rotate(5deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.5%;top:12.8%;width:15px;height:15px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+    <svg class="sprinkle" viewBox="0 0 24 24" style="left:31.1%;top:50.8%;width:15px;height:15px;color:#FFFFFF;transform:rotate(3deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+    </div>
+    <footer>Made with ♡ by Coco (•ᴗ-)</footer>
+  </div>
+<script>
+  function toggleTheme() {
+    var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 116 116" role="img" aria-label="A pink heart-shaped gem with sprinkles">
+<defs><clipPath id="h"><path d="M50 92 C38 82 10 62 8 38 C6 20 18 9 32 9 C41 9 47 14 50 21 C53 14 59 9 68 9 C82 9 94 20 92 38 C90 62 62 82 50 92 Z"/></clipPath></defs>
+<rect x="4.5" y="8.1" width="9" height="3.8" rx="1.9" fill="#FF6FAF" transform="rotate(30 9 10)"/>
+<rect x="19.5" y="0.10000000000000009" width="9" height="3.8" rx="1.9" fill="#7DB3FF" transform="rotate(-20 24 2)"/>
+<rect x="73.5" y="1.1" width="9" height="3.8" rx="1.9" fill="#4FD8C6" transform="rotate(25 78 3)"/>
+<rect x="89.5" y="14.1" width="9" height="3.8" rx="1.9" fill="#A98BFF" transform="rotate(-35 94 16)"/>
+<rect x="-2.5" y="60.1" width="9" height="3.8" rx="1.9" fill="#FFC54D" transform="rotate(80 2 62)"/>
+<rect x="93.5" y="56.1" width="9" height="3.8" rx="1.9" fill="#FF6FAF" transform="rotate(-70 98 58)"/>
+<rect x="7.5" y="88.1" width="9" height="3.8" rx="1.9" fill="#7DB3FF" transform="rotate(40 12 90)"/>
+<rect x="83.5" y="90.1" width="9" height="3.8" rx="1.9" fill="#FF6FAF" transform="rotate(-30 88 92)"/>
+<rect x="27.5" y="97.1" width="9" height="3.8" rx="1.9" fill="#7DB3FF" transform="rotate(10 32 99)"/>
+<rect x="63.5" y="98.1" width="9" height="3.8" rx="1.9" fill="#4FD8C6" transform="rotate(-15 68 100)"/>
+<rect x="55.5" y="-0.8999999999999999" width="9" height="3.8" rx="1.9" fill="#A98BFF" transform="rotate(60 60 1)"/>
+<rect x="-3.5" y="30.1" width="9" height="3.8" rx="1.9" fill="#FFC54D" transform="rotate(-50 1 32)"/>
+<g clip-path="url(#h)">
+  <path d="M50 92 C38 82 10 62 8 38 C6 20 18 9 32 9 C41 9 47 14 50 21 C53 14 59 9 68 9 C82 9 94 20 92 38 C90 62 62 82 50 92 Z" fill="#FF7DB8"/>
+  <!-- big flat facets: light from the top left -->
+  <path d="M0 0 L50 33 L26 38 L0 40 Z" fill="#FFA6CF"/>
+  <path d="M50 33 L100 0 L100 40 L74 38 Z" fill="#9CC6FF"/>
+  <path d="M0 40 L26 38 L50 70 L50 100 L0 100 Z" fill="#F0559C"/>
+  <path d="M100 40 L74 38 L50 70 L50 100 L100 100 Z" fill="#D93A86"/>
+  <path d="M50 0 L50 33 L0 0 Z" fill="#FFC2DE"/>
+  <path d="M50 0 L100 0 L50 33 Z" fill="#FF9ACB"/>
+  <path d="M50 70 C42 63 27 52 26 38 C25 29 31 24 38 24 C44 24 48 28 50 33 C52 28 56 24 62 24 C69 24 75 29 74 38 C73 52 58 63 50 70 Z" fill="#FFB8D9"/>
+  <path d="M50 33 C52 28 56 24 62 24 C69 24 75 29 74 38 C73 52 58 63 50 70 Z" fill="#FFA3CE"/>
+</g>
+<path d="M50 92 C38 82 10 62 8 38 C6 20 18 9 32 9 C41 9 47 14 50 21 C53 14 59 9 68 9 C82 9 94 20 92 38 C90 62 62 82 50 92 Z" fill="none" stroke="#8A1A50" stroke-width="5.5" stroke-linejoin="round"/>
+<!-- shine -->
+<path d="M19 33 C19 25 24 19 31 18" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+<circle cx="18.5" cy="41" r="2.7" fill="#FFFFFF"/>
+<path d="M58 60 C63 56 66 52 67 48" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" opacity=".75"/>
+<path transform="translate(40,33) scale(0.62)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z" fill="#FFFFFF"/>
+<path transform="translate(88,6) scale(0.6)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z" fill="#7DB3FF"/>
+<path transform="translate(5,48) scale(0.5)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z" fill="#FF6FAF"/>
+<path transform="translate(92,76) scale(0.45)" d="M0 -10 C1 -3 3 -1 10 0 C3 1 1 3 0 10 C-1 3 -3 1 -10 0 C-3 -1 -1 -3 0 -10Z" fill="#A98BFF"/>
+<path transform="translate(97,88) rotate(14) scale(0.42) translate(-12,-12)" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#7DB3FF"/>
+<path transform="translate(4,82) rotate(-16) scale(0.38) translate(-12,-12)" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" fill="#A98BFF"/>
+</svg>
