@@ -85,7 +85,10 @@
   .pill-app { background: none; }
   .pill-app img { width: 28px; height: 28px; border-radius: 9px; }
   :root[data-theme="dark"] .pill-ico:not(.pill-app) { background: var(--surface-2) !important; }
-  :root[data-theme="dark"] .pill-ico.ico-gh { color: #AEB8FF !important; }
+  .pill-ico:not(.pill-app) { background: var(--surface-2); color: var(--text); }
+  /* the logo files are shown as a shape filled with the text colour: black in light mode, white in dark */
+  .logo { width: 16px; height: 16px; background: currentColor;
+          -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; }
 
   /* ---------- sections ---------- */
   section { margin-top: 56px; }
@@ -288,8 +291,8 @@
       <h1 class="load" style="--i:0">Hi, I'm Coco!</h1>
       <p style="--i:1" class="load lead">I'm an illustrator and artist who has been exploring Generative AI and Machine Learning. I train LoRAs and make simple tools for training them.</p>
       <nav style="--i:2" class="load links" aria-label="Find me elsewhere">
-        <a class="pill" href="https://github.com/cococolacake"><span class="pill-ico ico-gh" style="background: #E9ECFF; color: var(--gem)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5"/></svg></span>GitHub</a>
-        <a class="pill" href="https://civitai.com/user/cococolacake"><span class="pill-ico" style="background: var(--sky-soft); color: var(--sky-text)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 14.5 9.5"/><path d="M16.5 3.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" fill="currentColor"/><path d="M7.5 5.5v2M6.5 6.5h2M19 14v2M18 15h2"/></svg></span>Civitai</a>
+        <a class="pill" href="https://github.com/cococolacake"><span class="pill-ico"><span class="logo" style="--logo: url(assets/github-logo.svg)"></span></span>GitHub</a>
+        <a class="pill" href="https://civitai.com/user/cococolacake"><span class="pill-ico"><span class="logo" style="--logo: url(assets/civitai-logo.svg)"></span></span>Civitai</a>
         <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="pill-ico pill-app"><img src="assets/lora-studio-icon.png" alt=""></span>LoRA Studio</a>
       </nav>
     </header>
