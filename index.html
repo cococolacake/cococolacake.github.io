@@ -3,549 +3,306 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coco (•ᴗ-) · illustrator, LoRA trainer &amp; GM</title>
-<meta name="description" content="Coco: illustrator and artist who trains LoRAs and makes soft, simple tools: LoRA Studio for training LoRAs, and Lore Studio for running tabletop campaigns.">
-<link rel="icon" href="assets/heart-gem.svg" type="image/svg+xml">
+<title>hi, i'm coco!</title>
+<meta name="description" content="hi, i'm coco! an illustrator studying to become an anthropologist, on computers since i was a kid.">
+<meta name="theme-color" content="#160B22">
+<link rel="icon" href="assets/heart.svg" type="image/svg+xml">
 <link rel="icon" href="assets/favicon.png" type="image/png">
-<meta property="og:title" content="Coco (•ᴗ-)">
-<meta property="og:description" content="Illustrator, LoRA trainer, and maker of LoRA Studio and Lore Studio.">
-<meta property="og:image" content="assets/lora-studio-home.jpg">
+<meta property="og:title" content="hi, i'm coco!">
+<meta property="og:description" content="illustrator studying to become an anthropologist ♡">
+<meta property="og:image" content="https://cococolacake.party/assets/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ---------- glass theme, in Coco's pink-to-pastel-blue palette ----------
-     Light sits at a soft mid-tone and dark at a warm charcoal: never pure white or near-black. */
-  @font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
   :root {
-    --bg1: #EDE6EE; --bg2: #DCE2F0;
-    --b1: #FFBCDB; --b2: #B9D6FF; --b3: #DCCBF6; --b4: #C4EEE7;
-    --glass: rgba(255,250,253,.52); --glass-2: rgba(255,255,255,.42); --solid: #F3EDF3;
-    --edge: rgba(255,255,255,.72); --hi: rgba(255,255,255,.88); --line: rgba(60,40,80,.10);
-    --tint: 92,62,110;
-    --text: #241F2E; --text-2: #514B60; --text-3: #645E74;
-    /* the palette: pink hair fading into pastel blue */
-    --rose: #FF8FC4; --rose-text: #B8296A; --sky: #9CC6FF; --sky-text: #2F62C0;
-    --gem: #3346A8; --aqua: #6FE3D4; --lilac: #B79BFF;
-    --acc1: #F57DB8; --acc2: #8DB8FF; --ink: #2B1530; --glow: rgba(245,125,184,.38);
-    --shadow: 0 18px 40px -18px rgba(var(--tint), .22), 0 2px 8px -3px rgba(var(--tint), .16);
-    --font: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
-    color-scheme: light;
-  }
-  :root[data-theme="dark"] {
-    --bg1: #251F2D; --bg2: #1B1D2A;
-    --b1: #6E2F55; --b2: #2E4B7C; --b3: #40336A; --b4: #1E5654;
-    --glass: rgba(255,235,250,.075); --glass-2: rgba(255,240,252,.06); --solid: #2A2433;
-    --edge: rgba(255,222,245,.15); --hi: rgba(255,235,250,.14); --line: rgba(255,222,245,.10);
-    --tint: 8,4,16;
-    --text: #F6F0FA; --text-2: #C7BED4; --text-3: #A79EB7;
-    --rose-text: #FF9DCB; --sky-text: #A9CCFF;
-    --acc1: #FF8FC4; --acc2: #9CC6FF; --ink: #2B1530; --glow: rgba(255,143,196,.36);
-    --shadow: 0 20px 44px -18px rgba(var(--tint), .6), 0 2px 8px -3px rgba(var(--tint), .5);
+    --bg: #160B22;
+    --text: #F4EAF6;
+    --soft: #EDDDF0;
+    --muted: #C9B6D2;
+    --pink: #FF5FB0;
+    --pink-deep: #E0407F;
+    --aqua: #3EF2DC;
+    --lilac: #9B6BFF;
+    --butter: #FFD54A;
+    --spring: cubic-bezier(.34, 1.56, .64, 1);
+    --ease: cubic-bezier(.22, 1, .36, 1);
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  html { min-height: 100%; background: linear-gradient(160deg, var(--bg1), var(--bg2)); background-color: var(--bg2); }
-  body {
-    margin: 0; min-height: 100vh; color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  /* soft colour blobs behind the glass; they drift very slowly */
-  body::before {
-    content: ""; position: fixed; inset: -10%; z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(34% 40% at 14% 10%, var(--b1), transparent 70%),
-      radial-gradient(32% 40% at 88% 16%, var(--b2), transparent 70%),
-      radial-gradient(40% 44% at 70% 92%, var(--b3), transparent 70%),
-      radial-gradient(28% 32% at 22% 72%, var(--b4), transparent 70%);
-  }
-  a { color: var(--rose-text); text-underline-offset: 3px; }
-  a:hover { color: var(--text); }
-  img { max-width: 100%; height: auto; display: block; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  html, body { margin: 0; min-height: 100%; }
+  body { background: var(--bg); color: var(--text); font-family: "Outfit", system-ui, sans-serif; overflow-x: hidden; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; }
 
-  /* the shared frosted-glass surface */
-  .glass, .banner, .card, .pill, .theme-btn, .pit, .avatar {
-    background: var(--glass);
-    -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%);
-    border: 1px solid var(--edge);
-    box-shadow: inset 0 1px 0 var(--hi), var(--shadow);
-  }
+  /* ---------- the lava lamp: soft blobs drifting behind the card ---------- */
+  .lava { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(46px); opacity: 0; animation: fade-in 1.4s var(--ease) forwards; }
+  .blob span { position: absolute; inset: 0; border-radius: 50%; background: inherit; }
+  .b1 { width: 36vmax; height: 36vmax; right: -8vmax; top: -10vmax; background: var(--pink); --o: .72; }
+  .b2 { width: 30vmax; height: 30vmax; left: -10vmax; top: 38vh; background: var(--pink-deep); --o: .7; animation-delay: .1s; }
+  .b3 { width: 24vmax; height: 24vmax; left: 52vw; top: 66vh; background: var(--aqua); --o: .42; animation-delay: .2s; }
+  .b4 { width: 20vmax; height: 20vmax; left: 16vw; top: 4vh; background: var(--lilac); --o: .5; animation-delay: .3s; }
+  .b1 span { animation: lava1 19s ease-in-out infinite; }
+  .b2 span { animation: lava2 23s ease-in-out infinite; }
+  .b3 span { animation: lava3 27s ease-in-out infinite; }
+  .b4 span { animation: lava4 21s ease-in-out infinite; }
+  .blob { background: none; }
+  .b1 span { background: var(--pink); } .b2 span { background: var(--pink-deep); }
+  .b3 span { background: var(--aqua); } .b4 span { background: var(--lilac); }
+  @keyframes fade-in { to { opacity: var(--o); } }
+  @keyframes lava1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5vw, -14vh) scale(1.18); } }
+  @keyframes lava2 { 0%, 100% { transform: translate(0, 0) scale(1.1); } 50% { transform: translate(-6vw, 12vh) scale(.9); } }
+  @keyframes lava3 { 0%, 100% { transform: translate(0, 0) scale(.95); } 50% { transform: translate(-3vw, -18vh) scale(1.15); } }
+  @keyframes lava4 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(7vw, 9vh) scale(1.2); } }
 
-  /* ---------- header: a floating glass panel with sprinkles ---------- */
-  .banner { height: 180px; margin: 16px 16px 0; border-radius: 30px; position: relative; overflow: hidden; }
-  .banner::before {   /* a soft pink-to-blue wash inside the glass */
-    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
-    background: linear-gradient(100deg, rgba(255,143,196,.35), rgba(183,155,255,.22) 55%, rgba(156,198,255,.35));
+  /* ---------- the card ---------- */
+  main { position: relative; z-index: 1; min-height: 100vh; min-height: 100dvh; padding: 48px 20px; display: flex; align-items: center; justify-content: center; }
+  .card {
+    width: 100%; max-width: 560px; border-radius: 32px; overflow: hidden;
+    background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 30px 80px -30px rgba(0, 0, 0, .6);
+    -webkit-backdrop-filter: blur(26px) saturate(140%); backdrop-filter: blur(26px) saturate(140%);
   }
-  .top { display: flex; justify-content: flex-end; padding-top: 16px; }
-  /* pinned to the header's top-right corner at any screen width */
-  .theme-btn {
-    position: absolute; top: 34px; right: 34px; z-index: 2;
-    width: 44px; height: 44px; border-radius: 999px; cursor: pointer; color: var(--text);
-    display: grid; place-items: center; padding: 0;
-  }
-  .theme-btn svg { width: 20px; height: 20px; }
+  .top { position: relative; padding: 40px 32px 32px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 
-  /* ---------- intro ---------- */
-  .intro { margin-top: -84px; position: relative; }
+  .gh {
+    position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
+    background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2);
+    color: #fff; text-decoration: none; transition: transform .3s var(--spring), background .2s;
+  }
+  .gh:hover { transform: translateY(-2px) rotate(-8deg) scale(1.06); background: rgba(255, 255, 255, .16); }
+  .gh svg { width: 20px; height: 20px; }
+
+  .avatar-wrap { position: relative; }
   .avatar {
-    width: 132px; height: 132px; border-radius: 36px; display: grid; place-items: center; padding: 0;
-    background: linear-gradient(150deg, rgba(255,214,234,.75), rgba(214,230,255,.75));
+    width: 76px; height: 76px; border-radius: 24px; display: grid; place-items: center; padding: 0; border: 0; cursor: pointer;
+    background: linear-gradient(160deg, var(--pink), var(--pink-deep)); box-shadow: 0 14px 34px -10px rgba(255, 95, 176, .75);
+    transition: transform .35s var(--spring);
   }
-  :root[data-theme="dark"] .avatar { background: linear-gradient(150deg, rgba(110,47,85,.55), rgba(46,75,124,.55)); }
-  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1.2px; margin: 20px 0 8px; font-weight: 650; }
-  .lead { font-size: 19px; color: var(--text-2); margin: 0; max-width: 620px; }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px 8px 8px; min-height: 44px;
-    border-radius: 999px; color: var(--text); text-decoration: none; font-weight: 550; font-size: 15px;
+  .avatar:hover { transform: rotate(-6deg) scale(1.05); }
+  .avatar:active { transform: scale(.92); transition-duration: .1s; }
+  .avatar svg { width: 56px; height: 37px; }
+  .avatar.wiggle { animation: wiggle .5s var(--spring); }
+  @keyframes wiggle { 30% { transform: rotate(-12deg) scale(1.08); } 60% { transform: rotate(8deg); } }
+  .pronouns {
+    position: absolute; right: -34px; bottom: -8px; padding: 4px 10px; border-radius: 99px;
+    background: var(--aqua); color: #062A27; font-weight: 600; font-size: 13px; line-height: 1.2; white-space: nowrap;
+    transform: rotate(-8deg); box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .5);
   }
-  .pill:hover { color: var(--text); }
-  .pill-ico { width: 28px; height: 28px; border-radius: 99px; display: grid; place-items: center; flex: none; }
-  .pill-ico svg { width: 16px; height: 16px; }
-  .pill-app { background: none; }
-  .pill-ico:not(.pill-app) { background: var(--glass-2); border: 1px solid var(--edge); color: var(--text); }
-  /* the GitHub logo, flipped to suit each mode */
-  .gh { width: 16px; height: 16px; filter: invert(1); }
-  :root[data-theme="dark"] .gh { filter: none; }
-  /* the app icons as line art in the text colour, like the apps' own rail */
-  .app-line { width: 100%; height: 100%; display: block; color: var(--text); }
-  .pill-app { width: 26px; height: 26px; }
 
-  /* ---------- sections ---------- */
-  section { margin-top: 56px; }
-  h2 { font-size: 20px; letter-spacing: -.3px; color: var(--text); margin: 0 0 14px; font-weight: 600; display: flex; align-items: center; }
-  .card { border-radius: 26px; padding: 28px; }
-  .about p { margin: 0 0 12px; color: var(--text-2); }
-  .about p:last-child { margin-bottom: 0; }
-
-  .project { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; align-items: center; }
-  .project + .project { margin-top: 16px; }
-  .project-head { display: flex; align-items: center; gap: 14px; }
-  .app-icon { width: 52px; height: 52px; flex: none; display: block; }
-  .project h3 { margin: 0; font-size: 24px; letter-spacing: -.4px; font-weight: 600; }
-  .project .sub { margin: 0; color: var(--text-3); font-size: 14px; }
-  .project p { color: var(--text-2); margin: 16px 0; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-  .tag { font-size: 13px; font-weight: 550; padding: 3px 11px; border-radius: 999px; background: var(--glass-2); border: 1px solid var(--edge); color: var(--sky-text); }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px;
-    border-radius: 999px; color: var(--ink); font-weight: 650; text-decoration: none;
-    background: linear-gradient(120deg, var(--acc1), var(--acc2));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 12px 26px -10px var(--glow);
+  h1 { margin: 24px 0 0; font-family: "Unbounded", sans-serif; font-weight: 700; font-size: 38px; line-height: 1.1; letter-spacing: -.02em; color: #fff; }
+  .bio { margin: 16px 0 0; max-width: 400px; font-size: 18px; line-height: 1.6; color: var(--soft); }
+  .likes { margin: 28px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .likes li {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: rgba(255, 255, 255, .07); font-size: 15px;
+    transition: transform .3s var(--spring), background .2s;
   }
-  .btn:hover { color: var(--ink); filter: brightness(1.04); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 14px 30px -10px var(--glow); }
-  .shots { position: relative; }
-  .shots img { border-radius: 16px; border: 1px solid var(--edge); box-shadow: 0 16px 36px -16px rgba(var(--tint), .45); }
+  .likes li:hover { transform: translateY(-3px) rotate(-2deg); background: rgba(255, 255, 255, .12); }
+  .likes i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+  .caption { margin: 10px 0 0; font-size: 13px; font-weight: 500; color: var(--muted); }
 
-  /* ---------- hearts & sprinkles ---------- */
-  .sprinkle { position: absolute; fill: currentColor; opacity: .9; filter: drop-shadow(0 1px 0 rgba(255,255,255,.5)); }
-  :root[data-theme="dark"] .sprinkle { filter: none; opacity: .85; }
-  .confetti { position: relative; height: 70px; margin-top: 48px; }
-  .has-badge { position: relative; }
-  .winged { position: absolute; top: -22px; right: 22px; width: 64px; height: 40px; transform: rotate(8deg); filter: drop-shadow(0 6px 10px rgba(var(--tint), .25)); }
-  h2 .heart { width: 15px; height: 15px; margin-right: 10px; fill: var(--rose); filter: drop-shadow(0 0 6px rgba(255,143,196,.45)); flex: none; }
-  section:nth-of-type(even) h2 .heart { fill: var(--sky); filter: drop-shadow(0 0 6px rgba(156,198,255,.5)); }
-  footer { margin: 8px 0 40px; color: var(--text-3); font-size: 14px; text-align: center; }
+  .pit { position: relative; height: 168px; border-top: 1px solid rgba(255, 255, 255, .1); background: rgba(0, 0, 0, .14); }
+  .pit canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+  .pit canvas:active { cursor: grabbing; }
 
+  /* ---------- the load-in: one sequence, top to bottom ---------- */
+  .in { opacity: 0; animation: rise .7s var(--ease) forwards; animation-delay: var(--d, 0s); }
+  .card.in { animation-name: card-in; animation-duration: .9s; }
+  .avatar-wrap.in { animation-name: pop; animation-timing-function: var(--spring); animation-duration: .6s; }
+  .pronouns.in { animation-name: swing; animation-timing-function: var(--spring); animation-duration: .6s; }
+  .gh.in { animation-name: fade; }
+  @keyframes card-in { from { opacity: 0; transform: translateY(28px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.4) rotate(-14deg); } to { opacity: 1; transform: none; } }
+  @keyframes swing { from { opacity: 0; transform: rotate(-40deg) scale(.5); } to { opacity: 1; transform: rotate(-8deg); } }
+  @keyframes fade { to { opacity: 1; } }
 
-  /* =====================================================================
-     Animations: all light CSS, and all switched off for "reduce motion".
-     ===================================================================== */
-  :root { --spring: cubic-bezier(.34, 1.56, .64, 1); }
-
-  /* --- load-in: header glides down, gem pops, the rest rises in turn --- */
-  @keyframes drop-in   { from { opacity: 0; transform: translateY(-24px); } }
-  @keyframes rise-in   { from { opacity: 0; transform: translateY(18px) scale(.98); } }
-  @keyframes pop-in    { 0% { opacity: 0; scale: .3; } 60% { opacity: 1; scale: 1.12; } 80% { scale: .96; } 100% { scale: 1; } }
-  .banner              { animation: drop-in .8s cubic-bezier(.22, 1, .36, 1) both; }
-  .theme-btn           { animation: pop-in .6s .5s both; }
-  .avatar              { animation: pop-in .8s .25s both; }
-  .load                { animation: rise-in .7s var(--spring) both; animation-delay: calc(.45s + var(--i, 0) * .09s); }
-
-  /* --- the colour blobs drift very slowly (one layer, so it stays light) --- */
-  @keyframes drift     { 50% { transform: translate(2%, -1.5%) scale(1.04); } }
-  body::before         { animation: drift 28s ease-in-out infinite; }
-
-  /* --- twinkling, floating header sprinkles --- */
-  @keyframes float     { 50% { translate: 0 -7px; } }
-  @keyframes twinkle   { 0%, 100% { opacity: .95; scale: 1; } 50% { opacity: .45; scale: .78; } }
-  .banner .sprinkle    { z-index: 1; animation: float 4.2s ease-in-out infinite, twinkle 2.6s ease-in-out infinite; }
-  .banner .sprinkle:nth-child(3n)   { animation-duration: 5.4s, 3.3s; animation-delay: -1.2s, -.7s; }
-  .banner .sprinkle:nth-child(3n+1) { animation-duration: 3.6s, 2.1s; animation-delay: -2.1s, -1.6s; }
-  .banner .sprinkle:nth-child(4n)   { animation-delay: -.4s, -2.4s; }
-
-  /* --- bouncy gem: gentle sway, wobble + shine on hover --- */
-  @keyframes sway      { 50% { rotate: -5deg; translate: 0 -3px; } }
-  @keyframes wobble    { 0%,100% { rotate: 0; } 20% { rotate: -12deg; scale: 1.08; } 40% { rotate: 10deg; } 60% { rotate: -6deg; } 80% { rotate: 3deg; } }
-  @keyframes shine     { from { translate: -120% 0; } to { translate: 120% 0; } }
-  .avatar { position: relative; overflow: hidden; cursor: pointer; }
-  .avatar img { animation: sway 3.8s ease-in-out 1.2s infinite; filter: drop-shadow(0 8px 14px rgba(var(--tint), .3)); }
-  .avatar:hover img, .avatar.boop img { animation: wobble .7s ease-in-out; }
-  .avatar::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none; translate: -120% 0;
-    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.75) 48%, transparent 66%);
-  }
-  .avatar:hover::after, .avatar.boop::after { animation: shine .8s ease-out; }
-
-  /* --- squishy buttons --- */
-  .pill, .btn, .theme-btn, .mini { transition: transform .35s var(--spring), filter .2s, box-shadow .2s; }
-  .pill:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 var(--hi), 0 20px 40px -16px rgba(var(--tint), .3); }
-  .btn:hover { transform: translateY(-2px); }
-  .pill:active, .btn:active { transform: scale(.94); transition-duration: .08s; }
-  .theme-btn:active { transform: scale(.88); transition-duration: .08s; }
-  @keyframes ico-hop   { 40% { translate: 0 -3px; rotate: -8deg; } 70% { rotate: 6deg; } }
-  .pill:hover .pill-ico { animation: ico-hop .5s var(--spring); }
-
-  /* --- theme toggle: moon spins into a sun (and back) --- */
-  .theme-btn svg { grid-area: 1 / 1; transition: rotate .5s var(--spring), scale .5s var(--spring), opacity .3s; }
-  .theme-btn .sun { rotate: -90deg; scale: 0; opacity: 0; }
-  :root[data-theme="dark"] .theme-btn .moon { rotate: 90deg; scale: 0; opacity: 0; }
-  :root[data-theme="dark"] .theme-btn .sun  { rotate: 0deg; scale: 1; opacity: 1; }
-  .theme-btn { overflow: visible; }
-
-  /* --- sprinkle pop: bits spawned by the script below --- */
-  .pop-bit { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 50; }
-
-
-  /* --- sprinkle pit (computers with a mouse only) --- */
-  .pit { display: none; }
-  @media (min-width: 721px) and (hover: hover) and (pointer: fine) {
-    .confetti { display: none; }
-    .pit { display: block; position: relative; height: 170px; margin-top: 56px; border-radius: 26px; overflow: hidden; }
-    .pit canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
-    .pit canvas:active { cursor: grabbing; }
-    .pit-hint {
-      position: absolute; top: 14px; left: 0; right: 0; text-align: center; pointer-events: none;
-      font-size: 13px; font-weight: 550; color: var(--text-3);
-    }
-    footer { margin-top: 20px; }
+  @media (max-width: 520px) {
+    main { padding: 24px 14px; }
+    .top { padding: 36px 22px 28px; }
+    h1 { font-size: 30px; }
+    .bio { font-size: 17px; }
+    .pit { height: 150px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-  }
-
-  @media (max-width: 720px) {
-    .project { grid-template-columns: 1fr; }
-  }
-  /* phones: everything a bit smaller, so it doesn't feel zoomed in */
-  @media (max-width: 520px) {
-    body { font-size: 15px; }
-    .wrap { padding: 0 18px; }
-    .banner { height: 120px; margin: 10px 10px 0; border-radius: 24px; }
-    .theme-btn { top: 22px; right: 22px; }
-    .intro { margin-top: -58px; }
-    .avatar { width: 96px; height: 96px; border-radius: 28px; }
-    .avatar img { width: 76px; height: 76px; }
-    h1 { font-size: 28px; margin: 14px 0 6px; letter-spacing: -.6px; }
-    .lead { font-size: 16px; line-height: 1.55; }
-    .links { gap: 8px; margin-top: 16px; }
-    .pill { font-size: 14px; padding: 7px 13px 7px 7px; }
-    .pill-ico { width: 26px; height: 26px; }
-    section { margin-top: 36px; }
-    h2 { font-size: 18px; margin-bottom: 10px; }
-    .card { padding: 18px; border-radius: 22px; }
-    .project { gap: 18px; }
-    .app-icon { width: 42px; height: 42px; }
-    .project h3 { font-size: 20px; }
-    .project p { margin: 12px 0; }
-    .tags { margin-bottom: 16px; }
-    .winged { width: 50px; height: 31px; top: -17px; right: 16px; }
-    .confetti { height: 50px; margin-top: 32px; }
+    .blob { animation: none; opacity: var(--o); }
+    .blob span { animation: none; }
+    .in, .card.in, .avatar-wrap.in, .pronouns.in, .gh.in { animation: none !important; opacity: 1; }
+    .avatar, .gh, .likes li { transition: none; }
   }
 </style>
-<script>
-  // Remember light/dark; otherwise follow the system setting.
-  (function () {
-    var saved = null;
-    try { saved = localStorage.getItem("theme"); } catch (e) {}
-    var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-  })();
-</script>
 </head>
 <body>
-  <div class="banner" aria-hidden="true">
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:32.4%;top:19.2%;width:22px;height:22px;color:var(--rose);transform:rotate(-22deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:8.8%;top:47.7%;width:17px;height:17px;color:var(--sky);transform:rotate(12deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:7.5%;top:45.6%;width:12px;height:12px;color:var(--aqua);transform:rotate(-20deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:42.8%;top:13.2%;width:13px;height:13px;color:var(--lilac);transform:rotate(10deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:41.9%;top:69.2%;width:13px;height:13px;color:#FFFFFF;transform:rotate(-11deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:61.3%;top:51.1%;width:12px;height:12px;color:var(--rose);transform:rotate(11deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:57.0%;top:11.7%;width:15px;height:15px;color:var(--sky);transform:rotate(-23deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:54.3%;top:17.9%;width:18px;height:18px;color:var(--aqua);transform:rotate(-16deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:52.8%;top:50.2%;width:20px;height:20px;color:var(--lilac);transform:rotate(18deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:19.0%;top:51.0%;width:22px;height:22px;color:#FFFFFF;transform:rotate(-13deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:37.0%;top:48.5%;width:13px;height:13px;color:var(--rose);transform:rotate(11deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:7.6%;top:23.2%;width:22px;height:22px;color:var(--sky);transform:rotate(9deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:42.2%;top:31.2%;width:21px;height:21px;color:var(--aqua);transform:rotate(4deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:36.0%;top:26.4%;width:14px;height:14px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
+  <div class="lava" aria-hidden="true">
+    <div class="blob b1"><span></span></div>
+    <div class="blob b2"><span></span></div>
+    <div class="blob b3"><span></span></div>
+    <div class="blob b4"><span></span></div>
   </div>
-  <div class="wrap">
-    <div class="top">
-      <button class="theme-btn" type="button" aria-label="Switch light or dark theme" onclick="toggleTheme()">
-        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
-      </button>
+
+  <main>
+    <div class="card in" style="--d: .15s">
+      <div class="top">
+        <a class="gh in" style="--d: .9s" href="https://github.com/cococolacake" aria-label="my github" title="my github">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+        </a>
+
+        <div class="avatar-wrap in" style="--d: .4s">
+          <button class="avatar" type="button" aria-label="shake the ball pit">
+            <svg viewBox="0 0 120 80" aria-hidden="true">
+              <path fill="#3EF2DC" d="M30 32C18 18 4 22 6 33C0 37 6 48 16 44C12 52 24 56 30 46Z"/>
+              <path fill="#3EF2DC" d="M90 32C102 18 116 22 114 33C120 37 114 48 104 44C108 52 96 56 90 46Z"/>
+              <path fill="#FFFFFF" d="M60 70C32 52 24 38 24 28A17 17 0 0 1 60 21A17 17 0 0 1 96 28C96 38 88 52 60 70Z"/>
+            </svg>
+          </button>
+          <span class="pronouns in" style="--d: .75s">she/he</span>
+        </div>
+
+        <h1 class="in" style="--d: .55s">hi, i'm coco!</h1>
+        <p class="bio in" style="--d: .68s">i'm an illustrator studying to become an anthropologist! i've been on computers since i was a kid and i'm still just as passionate about them.</p>
+
+        <ul class="likes" aria-label="my current obsessions">
+          <li class="in" style="--d: .82s"><i aria-hidden="true" style="background: var(--pink)"></i>cute anime girls</li>
+          <li class="in" style="--d: .9s"><i aria-hidden="true" style="background: var(--butter)"></i>guinea pigs</li>
+          <li class="in" style="--d: .98s"><i aria-hidden="true" style="background: var(--aqua)"></i>mizi (alien stage)</li>
+        </ul>
+        <p class="caption in" style="--d: 1.08s" aria-hidden="true">my current obsessions</p>
+      </div>
+
+      <div class="pit" aria-hidden="true"><canvas></canvas></div>
     </div>
+  </main>
 
-    <header class="intro">
-      <button class="avatar" type="button" aria-label="Sprinkle party!"><img src="assets/heart-gem.svg" alt="" width="104" height="104"></button>
-      <h1 class="load" style="--i:0">Hi, I'm Coco!</h1>
-      <p style="--i:1" class="load lead">I'm an illustrator and artist who has been exploring Generative AI and Machine Learning. I train LoRAs, run tabletop campaigns, and make simple tools for both.</p>
-      <nav style="--i:2" class="load links" aria-label="Find me elsewhere">
-        <a class="pill" href="https://github.com/cococolacake"><span class="pill-ico pill-app"><img class="gh" src="assets/github-logo.svg" alt="" width="16" height="16"></span>GitHub</a>
-        <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="pill-ico pill-app"><svg class="app-line" viewBox="0 0 512 512" aria-hidden="true"><rect x="56" y="56" width="400" height="400" rx="112" fill="none" stroke="currentColor" stroke-width="22"/><g transform="translate(256 262) scale(1.25) translate(-256 -266)" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="236" r="7" fill="currentColor" stroke-width="26"/><path d="M308 236 H360"/><path d="M222 292 Q256 330 290 292"/></g></svg></span>LoRA Studio</a>
-        <a class="pill" href="https://github.com/cococolacake/lore-studio"><span class="pill-ico pill-app"><svg class="app-line" viewBox="60 60 392 404" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M256 84 L256 184 M101.8 173 L256 184 M410.2 173 L256 184 M101.8 173 L176.3 322 M101.8 351 L176.3 322 M256 440 L176.3 322 M410.2 173 L335.7 322 M410.2 351 L335.7 322 M256 440 L335.7 322" stroke-width="16"/><path d="M256 184 L335.7 322 L176.3 322Z" stroke-width="18"/><path d="M256 84 L410.2 173 L410.2 351 L256 440 L101.8 351 L101.8 173Z" stroke-width="24"/></g></svg></span>Lore Studio</a>
-      </nav>
-    </header>
-
-    <section style="--i:3" class="load about" aria-labelledby="about-h">
-      <h2 id="about-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>About me</h2>
-      <div class="card has-badge">
-        <svg class="winged" viewBox="0 0 64 40" aria-hidden="true">
-          <path d="M20 20c-6-8-15-9-19-5 3 0 5 2 5 2-4 1-5 5-5 5 4-2 8-1 8-1-2 2-2 5-2 5 5-3 10-3 13-6z" fill="var(--aqua)"/>
-          <path d="M44 20c6-8 15-9 19-5-3 0-5 2-5 2 4 1 5 5 5 5-4-2-8-1-8-1 2 2 2 5 2 5-5-3-10-3-13-6z" fill="var(--aqua)"/>
-          <path d="M32 36s-12-7-14.5-14C15.8 16.6 19 11 24.6 11c3.4 0 5.9 2 7.4 4.3C33.5 13 36 11 39.4 11 45 11 48.2 16.6 46.5 22 44 29 32 36 32 36z" fill="var(--rose)"/>
-        </svg>
-        <p>A couple of years ago I got curious about AI and machine learning. I taught myself how to train LoRAs from scratch, but the learning curve was pretty steep, so I make tools to help learning feel a little less intimidating.</p>
-      </div>
-    </section>
-
-    <section class="load" style="--i:4" aria-labelledby="proj-h">
-      <h2 id="proj-h"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>Projects</h2>
-      <div class="card project">
-        <div>
-          <div class="project-head">
-            <span class="app-icon"><svg class="app-line" viewBox="0 0 512 512" aria-hidden="true"><rect x="56" y="56" width="400" height="400" rx="112" fill="none" stroke="currentColor" stroke-width="22"/><g transform="translate(256 262) scale(1.25) translate(-256 -266)" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="236" r="7" fill="currentColor" stroke-width="26"/><path d="M308 236 H360"/><path d="M222 292 Q256 330 290 292"/></g></svg></span>
-            <div>
-              <h3>LoRA Studio</h3>
-              <p class="sub">Windows &amp; Linux · free &amp; open source</p>
-            </div>
-          </div>
-          <p>A simple desktop app for training LoRAs with kohya-ss/sd-scripts. Live loss graph, training queue, dataset tools, sample grids, and one-click sending to SwarmUI or ComfyUI.</p>
-          <div class="tags"><span class="tag">Anima</span><span class="tag">FLUX</span><span class="tag">SDXL</span><span class="tag">SD 1.5</span></div>
-          <a class="btn" href="https://github.com/cococolacake/lora-studio">Get it on GitHub
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <div class="shots">
-          <img src="assets/lora-studio-home.jpg" alt="LoRA Studio's home screen with recent runs and a loss graph" width="1200" height="750">
-        </div>
-      </div>
-      <div class="card project">
-        <div>
-          <div class="project-head">
-            <span class="app-icon"><svg class="app-line" viewBox="60 60 392 404" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M256 84 L256 184 M101.8 173 L256 184 M410.2 173 L256 184 M101.8 173 L176.3 322 M101.8 351 L176.3 322 M256 440 L176.3 322 M410.2 173 L335.7 322 M410.2 351 L335.7 322 M256 440 L335.7 322" stroke-width="16"/><path d="M256 184 L335.7 322 L176.3 322Z" stroke-width="18"/><path d="M256 84 L410.2 173 L410.2 351 L256 440 L101.8 351 L101.8 173Z" stroke-width="24"/></g></svg></span>
-            <div>
-              <h3>Lore Studio</h3>
-              <p class="sub">Windows &amp; Linux · free &amp; open source</p>
-            </div>
-          </div>
-          <p>A desktop app for game masters. Keep your world's lore and maps, plan and run sessions, and turn session recordings into transcripts and recaps. Plus a calendar, timeline, faction clocks and a lore book to share with players.</p>
-          <div class="tags"><span class="tag">D&amp;D</span><span class="tag">Foundry VTT</span><span class="tag">Discord</span><span class="tag">Local AI</span></div>
-          <a class="btn" href="https://github.com/cococolacake/lore-studio">Get it on GitHub
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-        <div class="shots">
-          <img src="assets/lore-studio-home.jpg" alt="Lore Studio's home screen with the next session, recent recaps and loose threads" width="1200" height="750" loading="lazy">
-        </div>
-      </div>
-    </section>
-
-    <div style="--i:6" class="load confetti" aria-hidden="true">
-      <svg class="sprinkle" viewBox="0 0 24 24" style="left:75.3%;top:14.1%;width:12px;height:12px;color:var(--rose);transform:rotate(8deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:48.5%;top:33.4%;width:13px;height:13px;color:var(--sky);transform:rotate(-7deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:59.2%;top:13.4%;width:14px;height:14px;color:var(--aqua);transform:rotate(1deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:17.5%;top:33.3%;width:13px;height:13px;color:var(--lilac);transform:rotate(1deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:5.7%;top:57.4%;width:16px;height:16px;color:#FFFFFF;transform:rotate(10deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:55.9%;top:72.8%;width:12px;height:12px;color:var(--rose);transform:rotate(-4deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.4%;top:52.0%;width:14px;height:14px;color:var(--sky);transform:rotate(4deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:8.5%;top:14.9%;width:12px;height:12px;color:var(--aqua);transform:rotate(5deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:67.5%;top:12.8%;width:15px;height:15px;color:var(--lilac);transform:rotate(19deg)"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
-    <svg class="sprinkle" viewBox="0 0 24 24" style="left:31.1%;top:50.8%;width:15px;height:15px;color:#FFFFFF;transform:rotate(3deg)"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z"/></svg>
-    </div>
-    <div class="pit load" style="--i:6" aria-hidden="true"><canvas></canvas><span class="pit-hint">poke the sprinkles ♡</span></div>
-    <footer class="load" style="--i:7">Made with ♡ by Coco (•ᴗ-)</footer>
-  </div>
 <script>
-  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var HEART = "M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.6.7-1.4 2.2-2.6 4.3-2.6 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z";
-  var STAR = "M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z";
-  var COLORS = ["#FF8FC4", "#9CC6FF", "#6FE3D4", "#B79BFF", "#FFC54D", "#FF6FAF"];
+// The ball pit: balls, hearts, stars and sprinkles. On load they rain in and pile up; they roll away
+// from the mouse, burst when clicked, and the heart avatar shakes the whole pit.
+(function () {
+  var canvas = document.querySelector(".pit canvas");
+  var ctx = canvas.getContext("2d");
+  var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var colors = ["#FF5FB0", "#FF8AC8", "#3EF2DC", "#9B6BFF", "#FFD54A", "#FFFFFF", "#E0407F"];
+  var kinds = ["ball", "ball", "ball", "heart", "star", "sprinkle"];
+  var W = 0, H = 0, mouse = null, ps = [], toDrop = [], raf = null;
 
-  // 3. Sprinkle pop: a little burst of sprinkles, hearts and stars where you click.
-  function burst(x, y, count) {
-    if (calm) return;
-    for (var i = 0; i < count; i++) {
-      var bit, kind = i % 3, color = COLORS[i % COLORS.length];
-      if (kind === 0) {
-        bit = document.createElement("span");
-        bit.style.cssText = "width:9px;height:3.5px;border-radius:2px;background:" + color;
-      } else {
-        bit = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        bit.setAttribute("viewBox", "0 0 24 24");
-        bit.setAttribute("width", kind === 1 ? 14 : 12);
-        bit.setAttribute("height", kind === 1 ? 14 : 12);
-        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", kind === 1 ? HEART : STAR);
-        path.setAttribute("fill", color);
-        bit.appendChild(path);
+  function size() {
+    var r = canvas.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; canvas.width = Math.round(W * d); canvas.height = Math.round(H * d);
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  size();
+
+  var count = W < 420 ? 44 : 72;
+  for (var i = 0; i < count; i++) {
+    toDrop.push({ x: 12 + Math.random() * (W - 24), y: -20 - Math.random() * 40, vx: (Math.random() - .5) * 2, vy: 2 + Math.random() * 2,
+      r: 7 + Math.random() * 6, kind: kinds[i % kinds.length], color: colors[i % colors.length], rot: Math.random() * 6, vr: (Math.random() - .5) * .2 });
+  }
+
+  // Position-based physics in fixed 60 Hz steps, so the pile settles instead of jittering.
+  function step() {
+    var i, j, k, p;
+    for (i = 0; i < ps.length; i++) {
+      p = ps[i]; p.px = p.x; p.py = p.y;
+      p.vy += 0.22;
+      if (mouse) {
+        var dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
+        if (d < 60 && d > 0.1) { var f = (60 - d) / 60 * 1.1; p.vx += dx / d * f; p.vy += dy / d * f; p.vr += (Math.random() - .5) * .15; }
       }
-      bit.setAttribute("class", "pop-bit");
-      bit.setAttribute("aria-hidden", "true");
-      document.body.appendChild(bit);
-      var angle = Math.random() * Math.PI * 2, dist = 40 + Math.random() * 70;
-      var dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist - 20;
-      var spin = (Math.random() * 360 - 180) + "deg";
-      var anim = bit.animate([
-        { transform: "translate(" + x + "px," + y + "px) scale(.4) rotate(0deg)", opacity: 1 },
-        { transform: "translate(" + (x + dx) + "px," + (y + dy) + "px) scale(1) rotate(" + spin + ")", opacity: 1, offset: .55 },
-        { transform: "translate(" + (x + dx * 1.15) + "px," + (y + dy + 60) + "px) scale(.8) rotate(" + spin + ")", opacity: 0 }
-      ], { duration: 900 + Math.random() * 400, easing: "cubic-bezier(.2,.7,.3,1)" });
-      anim.onfinish = (function (el) { return function () { el.remove(); }; })(bit);
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vr *= 0.9;
+    }
+    for (k = 0; k < 5; k++) {
+      for (i = 0; i < ps.length; i++) for (j = i + 1; j < ps.length; j++) {
+        var a = ps[i], b = ps[j], ex = b.x - a.x, ey = b.y - a.y, dd = Math.hypot(ex, ey), m = a.r + b.r;
+        if (dd >= m || dd < 0.01) continue;
+        var nx = ex / dd, ny = ey / dd, o = (m - dd) / 2;
+        a.x -= nx * o; a.y -= ny * o; b.x += nx * o; b.y += ny * o;
+      }
+      for (i = 0; i < ps.length; i++) {
+        p = ps[i];
+        if (p.y > H - p.r) p.y = H - p.r;
+        if (p.x < p.r) p.x = p.r;
+        if (p.x > W - p.r) p.x = W - p.r;
+      }
+    }
+    for (i = 0; i < ps.length; i++) {
+      p = ps[i];
+      var floor = p.y >= H - p.r - 0.01;
+      p.vx = (p.x - p.px) * (floor ? 0.9 : 0.985);
+      p.vy = (p.y - p.py) * 0.985;
+      if (Math.abs(p.vx) < 0.02) p.vx = 0;
+      if (Math.abs(p.vy) < 0.02) p.vy = 0;
     }
   }
-  document.addEventListener("pointerdown", function (e) { burst(e.clientX, e.clientY, 10); });
 
-  // The gem: a bigger burst and a wobble when you click (or press Enter on) it.
+  function heart(r) { ctx.beginPath(); ctx.moveTo(0, r * .8); ctx.bezierCurveTo(-r * 1.3, 0, -r * .8, -r * 1.1, 0, -r * .35); ctx.bezierCurveTo(r * .8, -r * 1.1, r * 1.3, 0, 0, r * .8); ctx.fill(); }
+  function star(r) { ctx.beginPath(); ctx.moveTo(0, -r); ctx.quadraticCurveTo(r * .15, -r * .15, r, 0); ctx.quadraticCurveTo(r * .15, r * .15, 0, r); ctx.quadraticCurveTo(-r * .15, r * .15, -r, 0); ctx.quadraticCurveTo(-r * .15, -r * .15, 0, -r); ctx.fill(); }
+  function pill(r) { var w = r * .5, h = r * 2, x = -w / 2, y = -r, c = w / 2; ctx.beginPath(); ctx.moveTo(x + c, y); ctx.arcTo(x + w, y, x + w, y + h, c); ctx.arcTo(x + w, y + h, x, y + h, c); ctx.arcTo(x, y + h, x, y, c); ctx.arcTo(x, y, x + w, y, c); ctx.fill(); }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i];
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color;
+      if (p.kind === "ball") {
+        ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "rgba(255,255,255,.45)"; ctx.beginPath(); ctx.arc(-p.r * .35, -p.r * .35, p.r * .3, 0, Math.PI * 2); ctx.fill();
+      } else if (p.kind === "heart") heart(p.r);
+      else if (p.kind === "star") star(p.r * 1.1);
+      else pill(p.r);
+      ctx.restore();
+    }
+  }
+
+  function burst(x, y, radius, power) {
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i], dx = p.x - x, dy = p.y - y, d = Math.hypot(dx, dy) || 1;
+      if (d < radius) { var f = (radius - d) / radius * power; p.vx += dx / d * f; p.vy += dy / d * f - 3; p.vr += (Math.random() - .5) * .6; }
+    }
+  }
+
+  function local(e) { var r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  canvas.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") mouse = local(e); });
+  canvas.addEventListener("pointerleave", function () { mouse = null; });
+  canvas.addEventListener("pointerdown", function (e) { var q = local(e); burst(q.x, q.y, 120, 9); });
+
   var avatar = document.querySelector(".avatar");
-  avatar.addEventListener("click", function (e) {
-    var r = avatar.getBoundingClientRect();
-    if (e.detail === 0) burst(r.left + r.width / 2, r.top + r.height / 2, 18);  // keyboard
-    else burst(r.left + r.width / 2, r.top + r.height / 2, 8);                  // the click already made 10
-    avatar.classList.remove("boop"); void avatar.offsetWidth; avatar.classList.add("boop");
+  avatar.addEventListener("click", function () {
+    avatar.classList.remove("wiggle"); void avatar.offsetWidth; avatar.classList.add("wiggle");
+    for (var i = 0; i < ps.length; i++) { ps[i].vy -= 4 + Math.random() * 5; ps[i].vx += (Math.random() - .5) * 6; ps[i].vr += (Math.random() - .5) * .8; }
   });
-  avatar.addEventListener("animationend", function () { avatar.classList.remove("boop"); });
 
-  // Sprinkle pit: a little physics tray of sprinkles, hearts and stars that move away from the mouse.
-  (function () {
-    var box = document.querySelector(".pit"), canvas = box && box.querySelector("canvas");
-    if (!canvas || getComputedStyle(box).display === "none") return;
-    var ctx = canvas.getContext("2d"), W = 0, H = 0, dpr = 1;
-    var PALETTE = ["#FF8FC4", "#9CC6FF", "#6FE3D4", "#B79BFF", "#FFC54D", "#FF6FAF", "#7DB3FF"];
-    var heartPath = new Path2D(HEART), starPath = new Path2D(STAR);
-    var bits = [], mouse = null, running = false, visible = false, filled = false;
+  if (window.ResizeObserver) new ResizeObserver(function () {
+    var oldW = W; size();
+    if (oldW && W !== oldW) for (var i = 0; i < ps.length; i++) ps[i].x *= W / oldW;
+    if (!raf) draw();
+  }).observe(canvas);
 
-    function size() {
-      var r = canvas.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = r.width; H = r.height; canvas.width = W * dpr; canvas.height = H * dpr;
-    }
-    function fill() {
-      filled = true;
-      var n = Math.round(W / 7.5);
-      for (var i = 0; i < n; i++) {
-        var kind = i % 4, r = 12 + Math.random() * 4;
-        bits.push({ x: 12 + Math.random() * (W - 24), y: -20 - Math.random() * 520, vx: (Math.random() - .5) * 2, vy: Math.random() * 2,
-                    r: r, kind: kind, color: PALETTE[i % PALETTE.length], rot: Math.random() * 6.28, vr: 0 });
-      }
-    }
-    function step() {
-      var g = .16, MAX = 3.2, R = 60, i, j, b, c;
-      for (i = 0; i < bits.length; i++) {
-        b = bits[i];
-        if (mouse) {                                       // the mouse wakes and gently pushes nearby sprinkles
-          var dx = b.x - mouse.x, dy = b.y - mouse.y, d2 = dx * dx + dy * dy;
-          if (d2 < R * R) {
-            var d = Math.sqrt(d2) || 1, push = (R - d) / R;
-            b.asleep = false; b.still = 0; b.ax = undefined;
-            b.vx += dx / d * push * .9 + mouse.vx * push * .05;
-            b.vy += dy / d * push * .9 + mouse.vy * push * .05 - push * .35;
-          }
-        }
-        if (b.asleep) continue;
-        b.vy += g;
-        b.vx *= .96; b.vy *= .985;                         // a little air drag, so motion stays slow and floaty
-        var sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
-        if (sp > MAX) { b.vx *= MAX / sp; b.vy *= MAX / sp; }
-        b.x += b.vx; b.y += b.vy;
-        if (b.y > H - b.r) { b.y = H - b.r; b.vy *= -.1; b.vx *= .9; }
-        if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * .3; }
-        if (b.x > W - b.r) { b.x = W - b.r; b.vx = -Math.abs(b.vx) * .3; }
-        b.vr = b.vr * .9 + b.vx * .015; b.rot += b.vr;
-      }
-      for (var pass = 0; pass < 2; pass++) {               // keep them from overlapping
-        for (i = 0; i < bits.length; i++) for (j = i + 1; j < bits.length; j++) {
-          b = bits[i]; c = bits[j];
-          if (b.asleep && c.asleep) continue;
-          var ex = c.x - b.x, ey = c.y - b.y, min = (b.r + c.r) * .9, e2 = ex * ex + ey * ey;
-          if (e2 >= min * min || e2 < .0001) continue;
-          var e = Math.sqrt(e2), o = min - e, nx = ex / e, ny = ey / e;
-          var rv = (c.vx - b.vx) * nx + (c.vy - b.vy) * ny;
-          if (b.asleep || c.asleep) {                      // a resting sprinkle acts like solid ground...
-            var awake = b.asleep ? c : b, rest = b.asleep ? b : c, sgn = b.asleep ? 1 : -1;
-            if (Math.abs(rv) > 1.6) { rest.asleep = false; rest.still = 0; rest.ax = undefined; }   // ...unless bumped hard
-            awake.x += nx * o * sgn; awake.y += ny * o * sgn;
-            var vn = awake.vx * nx * sgn + awake.vy * ny * sgn;
-            if (vn < 0) { awake.vx -= nx * sgn * vn * 1.1; awake.vy -= ny * sgn * vn * 1.1; }
-          } else {
-            b.x -= nx * o / 2; b.y -= ny * o / 2; c.x += nx * o / 2; c.y += ny * o / 2;
-            if (rv < 0) { var k = rv * .5; b.vx += nx * k; b.vy += ny * k; c.vx -= nx * k; c.vy -= ny * k; }
-          }
-        }
-      }
-      for (i = 0; i < bits.length; i++) {                  // stayed in the same spot for a moment? fall asleep
-        b = bits[i]; if (b.asleep) continue;
-        if (b.ax === undefined || Math.abs(b.x - b.ax) + Math.abs(b.y - b.ay) > 1.5) { b.ax = b.x; b.ay = b.y; b.still = 0; }
-        else if (++b.still > 18) { b.asleep = true; b.vx = b.vy = b.vr = 0; b.x = b.ax; b.y = b.ay; }
-      }
-    }
-    function draw() {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < bits.length; i++) {
-        var b = bits[i]; ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.rot); ctx.fillStyle = b.color;
-        if (b.kind === 0 || b.kind === 3) {               // sprinkles: little rounded rods
-          var L = b.r * 2.1, T = b.r * .8; ctx.beginPath();
-          if (ctx.roundRect) ctx.roundRect(-L / 2, -T / 2, L, T, T / 2); else ctx.rect(-L / 2, -T / 2, L, T);
-          ctx.fill();
-        } else {
-          var s = b.r / 10; ctx.scale(s, s); ctx.translate(-12, -12);
-          ctx.fill(b.kind === 1 ? heartPath : starPath);
-        }
-        ctx.restore();
-      }
-    }
-    function loop() {
-      if (!visible) { running = false; return; }
-      step(); draw();
-      var awake = 0; for (var i = 0; i < bits.length; i++) if (!bits[i].asleep) awake++;
-      if (awake === 0) { running = false; return; }        // every sprinkle is resting: stop drawing
-      requestAnimationFrame(loop);
-    }
-    function wake() { if (!running && visible) { running = true; requestAnimationFrame(loop); } }
-
-    size();
-    if (calm) {                                            // reduce motion: a still pile, drawn once
-      fill(); for (var t = 0; t < 900; t++) step(); draw(); return;
-    }
-    new IntersectionObserver(function (es) {
-      visible = es[0].isIntersecting;
-      if (visible) { if (!filled) fill(); wake(); }
-    }, { threshold: .2 }).observe(box);
-
-    canvas.addEventListener("pointermove", function (e) {
-      var r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-      mouse = mouse ? { x: x, y: y, vx: x - mouse.x, vy: y - mouse.y } : { x: x, y: y, vx: 0, vy: 0 };
-      wake();
-    });
-    canvas.addEventListener("pointerleave", function () { mouse = null; });
-    canvas.addEventListener("pointerdown", function (e) {   // a click makes a little explosion
-      var r = canvas.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-      bits.forEach(function (b) {
-        var dx = b.x - x, dy = b.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1;
-        if (d < 120) { var f = (120 - d) / 120 * 4.5; b.asleep = false; b.still = 0; b.ax = undefined; b.vx += dx / d * f; b.vy += dy / d * f - f * .5; }
-      });
-      wake();
-    });
-    window.addEventListener("resize", function () {
-      var oldW = W; size(); bits.forEach(function (b) { b.x = b.x * W / (oldW || W); }); wake();
-    });
-  })();
-
-  function toggleTheme() {
-    var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("theme", next); } catch (e) {}
+  if (still) {   // reduced motion: start with the pile already settled, and only move when poked
+    ps = toDrop; toDrop = [];
+    for (var s = 0; s < ps.length; s++) ps[s].y = H * .4 + Math.random() * H * .5;
+    for (var t = 0; t < 600; t++) step();
   }
+
+  var last = performance.now(), acc = 0, started = performance.now(), dropDelay = still ? 0 : 1100;
+  function loop(now) {
+    acc = Math.min(acc + (now - last), 100); last = now;
+    // the rain: after the text has come in, drop a piece every 28 ms
+    if (toDrop.length && now - started > dropDelay) {
+      var due = Math.floor((now - started - dropDelay) / 28) - (count - toDrop.length) + 1;
+      while (due-- > 0 && toDrop.length) ps.push(toDrop.shift());
+    }
+    while (acc >= 1000 / 60) { step(); acc -= 1000 / 60; }
+    draw();
+    raf = requestAnimationFrame(loop);
+  }
+  // pause when the tab is hidden
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
+    else if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+  raf = requestAnimationFrame(loop);
+})();
 </script>
 </body>
 </html>
