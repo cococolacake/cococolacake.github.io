@@ -11,130 +11,139 @@
 <meta property="og:description" content="Illustrator, LoRA trainer, and maker of LoRA Studio and Lore Studio.">
 <meta property="og:image" content="assets/lora-studio-home.jpg">
 <style>
-  /* ---------- colors: same neutrals and pastels as LoRA Studio ---------- */
+  /* ---------- glass theme, in Coco's pink-to-pastel-blue palette ----------
+     Light sits at a soft mid-tone and dark at a warm charcoal: never pure white or near-black. */
+  @font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
   :root {
-    --bg: #F2F2F3; --surface: #FFFFFF; --surface-2: #F6F6F7; --line: rgba(17,17,20,.08);
-    --text: #17171A; --text-2: #55555D; --text-3: #75757E;
-    /* Mizi palette: pink hair fading into pastel blue */
-    --rose: #FF8FC4; --rose-soft: #FFEAF4; --rose-tile: #FFDCEC; --rose-text: #C2306F;
-    --sky: #9CC6FF; --sky-soft: #E8F2FF; --sky-text: #2F6FD0;
+    --bg1: #EDE6EE; --bg2: #DCE2F0;
+    --b1: #FFBCDB; --b2: #B9D6FF; --b3: #DCCBF6; --b4: #C4EEE7;
+    --glass: rgba(255,250,253,.52); --glass-2: rgba(255,255,255,.42); --solid: #F3EDF3;
+    --edge: rgba(255,255,255,.72); --hi: rgba(255,255,255,.88); --line: rgba(60,40,80,.10);
+    --tint: 92,62,110;
+    --text: #241F2E; --text-2: #514B60; --text-3: #645E74;
+    /* the palette: pink hair fading into pastel blue */
+    --rose: #FF8FC4; --rose-text: #B8296A; --sky: #9CC6FF; --sky-text: #2F62C0;
     --gem: #3346A8; --aqua: #6FE3D4; --lilac: #B79BFF;
-    --shadow: 0 1px 2px rgba(15,15,20,.04), 0 8px 24px rgba(15,15,20,.06);
-    --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --acc1: #F57DB8; --acc2: #8DB8FF; --ink: #2B1530; --glow: rgba(245,125,184,.38);
+    --shadow: 0 18px 40px -18px rgba(var(--tint), .22), 0 2px 8px -3px rgba(var(--tint), .16);
+    --font: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
     color-scheme: light;
   }
   :root[data-theme="dark"] {
-    --bg: #0D0E14; --surface: #171923; --surface-2: #20232F; --line: rgba(255,255,255,.07);
-    --text: #F2F2F6; --text-2: #B6B8C6; --text-3: #8B8EA0;
-    --rose-soft: #2B1824; --rose-tile: #3A1F30; --rose-text: #FF8FC4;
-    --sky-soft: #172238; --sky-text: #9CC6FF; --aqua: #4FD8C6;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    --bg1: #251F2D; --bg2: #1B1D2A;
+    --b1: #6E2F55; --b2: #2E4B7C; --b3: #40336A; --b4: #1E5654;
+    --glass: rgba(255,235,250,.075); --glass-2: rgba(255,240,252,.06); --solid: #2A2433;
+    --edge: rgba(255,222,245,.15); --hi: rgba(255,235,250,.14); --line: rgba(255,222,245,.10);
+    --tint: 8,4,16;
+    --text: #F6F0FA; --text-2: #C7BED4; --text-3: #A79EB7;
+    --rose-text: #FF9DCB; --sky-text: #A9CCFF;
+    --acc1: #FF8FC4; --acc2: #9CC6FF; --ink: #2B1530; --glow: rgba(255,143,196,.36);
+    --shadow: 0 20px 44px -18px rgba(var(--tint), .6), 0 2px 8px -3px rgba(var(--tint), .5);
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6; }
+  html { min-height: 100%; background: linear-gradient(160deg, var(--bg1), var(--bg2)); background-color: var(--bg2); }
+  body {
+    margin: 0; min-height: 100vh; color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* soft colour blobs behind the glass; they drift very slowly */
+  body::before {
+    content: ""; position: fixed; inset: -10%; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(34% 40% at 14% 10%, var(--b1), transparent 70%),
+      radial-gradient(32% 40% at 88% 16%, var(--b2), transparent 70%),
+      radial-gradient(40% 44% at 70% 92%, var(--b3), transparent 70%),
+      radial-gradient(28% 32% at 22% 72%, var(--b4), transparent 70%);
+  }
   a { color: var(--rose-text); text-underline-offset: 3px; }
   a:hover { color: var(--text); }
   img { max-width: 100%; height: auto; display: block; }
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 
-  /* ---------- header: pastel checkerboard, like the app's header patterns ---------- */
-  .banner {
-    height: 180px; --tile: rgba(255,255,255,.35);
-    background-image: linear-gradient(100deg, #FFC2DE 0%, #FFB3D6 30%, #D9C6F5 62%, #B9D6FF 100%);
+  /* the shared frosted-glass surface */
+  .glass, .banner, .card, .pill, .theme-btn, .pit, .avatar {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid var(--edge);
+    box-shadow: inset 0 1px 0 var(--hi), var(--shadow);
   }
-  :root[data-theme="dark"] .banner {
-    --tile: rgba(255,255,255,.06);
-    background-image: linear-gradient(100deg, #5A2742 0%, #4E2846 30%, #3A3260 62%, #2A3D66 100%);
+
+  /* ---------- header: a floating glass panel with sprinkles ---------- */
+  .banner { height: 180px; margin: 16px 16px 0; border-radius: 30px; position: relative; overflow: hidden; }
+  .banner::before {   /* a soft pink-to-blue wash inside the glass */
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .55;
+    background: linear-gradient(100deg, rgba(255,143,196,.35), rgba(183,155,255,.22) 55%, rgba(156,198,255,.35));
   }
-  /* the checkerboard sits on its own layer so it can slide */
-  .banner::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: conic-gradient(var(--tile) 25%, transparent 0 50%, var(--tile) 0 75%, transparent 0);
-    background-size: 48px 48px;
-  }
-  .top { position: relative; display: flex; justify-content: flex-end; padding-top: 16px; }
+  .top { display: flex; justify-content: flex-end; padding-top: 16px; }
+  /* pinned to the header's top-right corner at any screen width */
   .theme-btn {
-    position: absolute; top: -164px; right: 24px;
-    width: 44px; height: 44px; border-radius: 999px; border: 0; cursor: pointer;
-    background: var(--surface); color: var(--text); box-shadow: var(--shadow);
-    display: grid; place-items: center;
+    position: absolute; top: 34px; right: 34px; z-index: 2;
+    width: 44px; height: 44px; border-radius: 999px; cursor: pointer; color: var(--text);
+    display: grid; place-items: center; padding: 0;
   }
   .theme-btn svg { width: 20px; height: 20px; }
 
   /* ---------- intro ---------- */
   .intro { margin-top: -84px; position: relative; }
   .avatar {
-    width: 132px; height: 132px; border-radius: 36px; background: linear-gradient(150deg, #FFE0EE, #DCEBFF);
-    display: grid; place-items: center; padding: 0;
-    box-shadow: var(--shadow); border: 6px solid var(--bg); letter-spacing: -1px;
+    width: 132px; height: 132px; border-radius: 36px; display: grid; place-items: center; padding: 0;
+    background: linear-gradient(150deg, rgba(255,214,234,.75), rgba(214,230,255,.75));
   }
-  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1px; margin: 20px 0 8px; }
+  :root[data-theme="dark"] .avatar { background: linear-gradient(150deg, rgba(110,47,85,.55), rgba(46,75,124,.55)); }
+  h1 { font-size: 44px; line-height: 1.1; letter-spacing: -1.2px; margin: 20px 0 8px; font-weight: 650; }
   .lead { font-size: 19px; color: var(--text-2); margin: 0; max-width: 620px; }
   .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
   .pill {
-    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; min-height: 44px;
-    border-radius: 999px; background: var(--surface); color: var(--text); text-decoration: none;
-    font-weight: 600; font-size: 15px; box-shadow: var(--shadow);
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px 8px 8px; min-height: 44px;
+    border-radius: 999px; color: var(--text); text-decoration: none; font-weight: 550; font-size: 15px;
   }
-  .pill:hover { color: var(--text); transform: translateY(-1px); }
-  .dot { width: 9px; height: 9px; border-radius: 99px; flex: none; }
-  .pill { padding-left: 8px; }
+  .pill:hover { color: var(--text); }
   .pill-ico { width: 28px; height: 28px; border-radius: 99px; display: grid; place-items: center; flex: none; }
   .pill-ico svg { width: 16px; height: 16px; }
   .pill-app { background: none; }
-  .pill-app img { width: 28px; height: 28px; border-radius: 9px; }
-  :root[data-theme="dark"] .pill-ico:not(.pill-app) { background: var(--surface-2) !important; }
-  .pill-ico:not(.pill-app) { background: var(--surface-2); color: var(--text); }
-  /* the logo files are shown as a shape filled with the text colour: black in light mode, white in dark */
-  .logo { width: 16px; height: 16px; background: currentColor;
-          -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat; }
+  .pill-ico:not(.pill-app) { background: var(--glass-2); border: 1px solid var(--edge); color: var(--text); }
+  /* the GitHub logo, flipped to suit each mode */
+  .gh { width: 16px; height: 16px; filter: invert(1); }
+  :root[data-theme="dark"] .gh { filter: none; }
+  /* the app icons as line art in the text colour, like the apps' own rail */
+  .app-line { width: 100%; height: 100%; display: block; color: var(--text); }
+  .pill-app { width: 26px; height: 26px; }
 
   /* ---------- sections ---------- */
   section { margin-top: 56px; }
-  h2::before { content: ""; display: inline-block; width: 18px; height: 6px; border-radius: 99px; margin-right: 10px; vertical-align: middle; background: linear-gradient(90deg, var(--rose), var(--sky)); }
-  h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin: 0 0 14px; font-weight: 700; }
-  .card { background: var(--surface); border-radius: 26px; box-shadow: var(--shadow); padding: 28px; }
+  h2 { font-size: 20px; letter-spacing: -.3px; color: var(--text); margin: 0 0 14px; font-weight: 600; display: flex; align-items: center; }
+  .card { border-radius: 26px; padding: 28px; }
   .about p { margin: 0 0 12px; color: var(--text-2); }
   .about p:last-child { margin-bottom: 0; }
 
   .project { display: grid; grid-template-columns: 1fr 1.15fr; gap: 28px; align-items: center; }
   .project + .project { margin-top: 16px; }
   .project-head { display: flex; align-items: center; gap: 14px; }
-  .project-head img { width: 56px; height: 56px; border-radius: 16px; flex: none; }
-  .project h3 { margin: 0; font-size: 24px; letter-spacing: -.4px; }
+  .app-icon { width: 52px; height: 52px; flex: none; display: block; }
+  .project h3 { margin: 0; font-size: 24px; letter-spacing: -.4px; font-weight: 600; }
   .project .sub { margin: 0; color: var(--text-3); font-size: 14px; }
   .project p { color: var(--text-2); margin: 16px 0; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-  .tag { font-size: 13px; font-weight: 600; padding: 4px 11px; border-radius: 999px; background: var(--sky-soft); color: var(--sky-text); }
+  .tag { font-size: 13px; font-weight: 550; padding: 3px 11px; border-radius: 999px; background: var(--glass-2); border: 1px solid var(--edge); color: var(--sky-text); }
   .btn {
-    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px;
-    border-radius: 999px; background: var(--rose); color: #4A0F2C; font-weight: 700; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px;
+    border-radius: 999px; color: var(--ink); font-weight: 650; text-decoration: none;
+    background: linear-gradient(120deg, var(--acc1), var(--acc2));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 12px 26px -10px var(--glow);
   }
-  .btn:hover { color: #4A0F2C; filter: brightness(1.04); }
+  .btn:hover { color: var(--ink); filter: brightness(1.04); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 14px 30px -10px var(--glow); }
   .shots { position: relative; }
-  .shots img { border-radius: 16px; border: 1px solid var(--line); box-shadow: var(--shadow); }
-
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .mini { display: block; text-decoration: none; color: var(--text); }
-  .mini:hover { color: var(--text); transform: translateY(-1px); }
-  .mini h3 { margin: 10px 0 4px; font-size: 18px; }
-  .mini p { margin: 0; color: var(--text-2); font-size: 15px; }
-  .chip { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; }
-  .chip svg { width: 22px; height: 22px; }
-
+  .shots img { border-radius: 16px; border: 1px solid var(--edge); box-shadow: 0 16px 36px -16px rgba(var(--tint), .45); }
 
   /* ---------- hearts & sprinkles ---------- */
-  .banner { position: relative; overflow: hidden; }
   .sprinkle { position: absolute; fill: currentColor; opacity: .9; filter: drop-shadow(0 1px 0 rgba(255,255,255,.5)); }
-  :root[data-theme="dark"] .avatar { background: linear-gradient(150deg, #2B1824, #172238); }
   :root[data-theme="dark"] .sprinkle { filter: none; opacity: .85; }
   .confetti { position: relative; height: 70px; margin-top: 48px; }
   .has-badge { position: relative; }
-  .winged { position: absolute; top: -22px; right: 22px; width: 64px; height: 40px; transform: rotate(8deg); }
-  h2::before { content: none; }
-  h2 .heart { width: 14px; height: 14px; vertical-align: -2px; margin-right: 8px; fill: var(--rose); }
-  section:nth-of-type(even) h2 .heart { fill: var(--sky); }
+  .winged { position: absolute; top: -22px; right: 22px; width: 64px; height: 40px; transform: rotate(8deg); filter: drop-shadow(0 6px 10px rgba(var(--tint), .25)); }
+  h2 .heart { width: 15px; height: 15px; margin-right: 10px; fill: var(--rose); filter: drop-shadow(0 0 6px rgba(255,143,196,.45)); flex: none; }
+  section:nth-of-type(even) h2 .heart { fill: var(--sky); filter: drop-shadow(0 0 6px rgba(156,198,255,.5)); }
   footer { margin: 8px 0 40px; color: var(--text-3); font-size: 14px; text-align: center; }
 
 
@@ -143,34 +152,33 @@
      ===================================================================== */
   :root { --spring: cubic-bezier(.34, 1.56, .64, 1); }
 
-  /* --- load-in: header slides down, gem pops, the rest rises in turn --- */
-  @keyframes drop-in   { from { transform: translateY(-100%); } }
+  /* --- load-in: header glides down, gem pops, the rest rises in turn --- */
+  @keyframes drop-in   { from { opacity: 0; transform: translateY(-24px); } }
   @keyframes rise-in   { from { opacity: 0; transform: translateY(18px) scale(.98); } }
   @keyframes pop-in    { 0% { opacity: 0; scale: .3; } 60% { opacity: 1; scale: 1.12; } 80% { scale: .96; } 100% { scale: 1; } }
-  .banner              { animation: drop-in .8s cubic-bezier(.22, 1, .36, 1) both; }  /* glides in, no overshoot */
+  .banner              { animation: drop-in .8s cubic-bezier(.22, 1, .36, 1) both; }
   .theme-btn           { animation: pop-in .6s .5s both; }
   .avatar              { animation: pop-in .8s .25s both; }
   .load                { animation: rise-in .7s var(--spring) both; animation-delay: calc(.45s + var(--i, 0) * .09s); }
 
-  /* --- 1. twinkling, floating header sprinkles --- */
+  /* --- the colour blobs drift very slowly (one layer, so it stays light) --- */
+  @keyframes drift     { 50% { transform: translate(2%, -1.5%) scale(1.04); } }
+  body::before         { animation: drift 28s ease-in-out infinite; }
+
+  /* --- twinkling, floating header sprinkles --- */
   @keyframes float     { 50% { translate: 0 -7px; } }
   @keyframes twinkle   { 0%, 100% { opacity: .95; scale: 1; } 50% { opacity: .45; scale: .78; } }
-  .banner .sprinkle    { animation: float 4.2s ease-in-out infinite, twinkle 2.6s ease-in-out infinite; }
+  .banner .sprinkle    { z-index: 1; animation: float 4.2s ease-in-out infinite, twinkle 2.6s ease-in-out infinite; }
   .banner .sprinkle:nth-child(3n)   { animation-duration: 5.4s, 3.3s; animation-delay: -1.2s, -.7s; }
   .banner .sprinkle:nth-child(3n+1) { animation-duration: 3.6s, 2.1s; animation-delay: -2.1s, -1.6s; }
   .banner .sprinkle:nth-child(4n)   { animation-delay: -.4s, -2.4s; }
 
-  /* --- 6. checkerboard slowly slides diagonally --- */
-  @keyframes slide     { to { background-position: 48px 48px; } }
-  .banner::before      { animation: slide 6s linear infinite; }
-  .banner .sprinkle { z-index: 1; }
-
-  /* --- 2. bouncy gem: gentle sway, wobble + shine on hover --- */
+  /* --- bouncy gem: gentle sway, wobble + shine on hover --- */
   @keyframes sway      { 50% { rotate: -5deg; translate: 0 -3px; } }
   @keyframes wobble    { 0%,100% { rotate: 0; } 20% { rotate: -12deg; scale: 1.08; } 40% { rotate: 10deg; } 60% { rotate: -6deg; } 80% { rotate: 3deg; } }
   @keyframes shine     { from { translate: -120% 0; } to { translate: 120% 0; } }
   .avatar { position: relative; overflow: hidden; cursor: pointer; }
-  .avatar img { animation: sway 3.8s ease-in-out 1.2s infinite; }
+  .avatar img { animation: sway 3.8s ease-in-out 1.2s infinite; filter: drop-shadow(0 8px 14px rgba(var(--tint), .3)); }
   .avatar:hover img, .avatar.boop img { animation: wobble .7s ease-in-out; }
   .avatar::after {
     content: ""; position: absolute; inset: 0; pointer-events: none; translate: -120% 0;
@@ -178,24 +186,23 @@
   }
   .avatar:hover::after, .avatar.boop::after { animation: shine .8s ease-out; }
 
-  /* --- 5. squishy buttons --- */
-  .pill, .btn, .theme-btn, .mini { transition: transform .35s var(--spring), filter .2s; }
-  .pill:hover, .mini:hover { transform: translateY(-2px); }
+  /* --- squishy buttons --- */
+  .pill, .btn, .theme-btn, .mini { transition: transform .35s var(--spring), filter .2s, box-shadow .2s; }
+  .pill:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 var(--hi), 0 20px 40px -16px rgba(var(--tint), .3); }
   .btn:hover { transform: translateY(-2px); }
-  .pill:active, .btn:active, .mini:active { transform: scale(.94); transition-duration: .08s; }
+  .pill:active, .btn:active { transform: scale(.94); transition-duration: .08s; }
   .theme-btn:active { transform: scale(.88); transition-duration: .08s; }
-  @keyframes pulse     { 50% { scale: 1.6; } }
   @keyframes ico-hop   { 40% { translate: 0 -3px; rotate: -8deg; } 70% { rotate: 6deg; } }
   .pill:hover .pill-ico { animation: ico-hop .5s var(--spring); }
 
-  /* --- 7. theme toggle: moon spins into a sun (and back) --- */
+  /* --- theme toggle: moon spins into a sun (and back) --- */
   .theme-btn svg { grid-area: 1 / 1; transition: rotate .5s var(--spring), scale .5s var(--spring), opacity .3s; }
   .theme-btn .sun { rotate: -90deg; scale: 0; opacity: 0; }
   :root[data-theme="dark"] .theme-btn .moon { rotate: 90deg; scale: 0; opacity: 0; }
   :root[data-theme="dark"] .theme-btn .sun  { rotate: 0deg; scale: 1; opacity: 1; }
   .theme-btn { overflow: visible; }
 
-  /* --- 3. sprinkle pop: bits spawned by the script below --- */
+  /* --- sprinkle pop: bits spawned by the script below --- */
   .pop-bit { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 50; }
 
 
@@ -203,15 +210,12 @@
   .pit { display: none; }
   @media (min-width: 721px) and (hover: hover) and (pointer: fine) {
     .confetti { display: none; }
-    .pit {
-      display: block; position: relative; height: 170px; margin-top: 56px;
-      border-radius: 26px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden;
-    }
+    .pit { display: block; position: relative; height: 170px; margin-top: 56px; border-radius: 26px; overflow: hidden; }
     .pit canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
     .pit canvas:active { cursor: grabbing; }
     .pit-hint {
       position: absolute; top: 14px; left: 0; right: 0; text-align: center; pointer-events: none;
-      font-size: 13px; font-weight: 600; color: var(--text-3); letter-spacing: .02em;
+      font-size: 13px; font-weight: 550; color: var(--text-3);
     }
     footer { margin-top: 20px; }
   }
@@ -220,34 +224,30 @@
   }
 
   @media (max-width: 720px) {
-    .project, .grid2 { grid-template-columns: 1fr; }
+    .project { grid-template-columns: 1fr; }
   }
   /* phones: everything a bit smaller, so it doesn't feel zoomed in */
   @media (max-width: 520px) {
     body { font-size: 15px; }
     .wrap { padding: 0 18px; }
-    .banner { height: 120px; }
-    .theme-btn { top: -104px; right: 18px; }
+    .banner { height: 120px; margin: 10px 10px 0; border-radius: 24px; }
+    .theme-btn { top: 22px; right: 22px; }
     .intro { margin-top: -58px; }
-    .avatar { width: 96px; height: 96px; border-radius: 28px; border-width: 5px; }
+    .avatar { width: 96px; height: 96px; border-radius: 28px; }
     .avatar img { width: 76px; height: 76px; }
     h1 { font-size: 28px; margin: 14px 0 6px; letter-spacing: -.6px; }
     .lead { font-size: 16px; line-height: 1.55; }
     .links { gap: 8px; margin-top: 16px; }
     .pill { font-size: 14px; padding: 7px 13px 7px 7px; }
-    .pill-ico, .pill-app img { width: 26px; height: 26px; }
+    .pill-ico { width: 26px; height: 26px; }
     section { margin-top: 36px; }
-    h2 { font-size: 12px; margin-bottom: 10px; }
+    h2 { font-size: 18px; margin-bottom: 10px; }
     .card { padding: 18px; border-radius: 22px; }
     .project { gap: 18px; }
-    .project-head img { width: 46px; height: 46px; border-radius: 13px; }
+    .app-icon { width: 42px; height: 42px; }
     .project h3 { font-size: 20px; }
     .project p { margin: 12px 0; }
     .tags { margin-bottom: 16px; }
-    .mini h3 { font-size: 16px; margin-top: 8px; }
-    .mini p { font-size: 14px; }
-    .chip { width: 38px; height: 38px; border-radius: 12px; }
-    .chip svg { width: 19px; height: 19px; }
     .winged { width: 50px; height: 31px; top: -17px; right: 16px; }
     .confetti { height: 50px; margin-top: 32px; }
   }
@@ -292,9 +292,9 @@
       <h1 class="load" style="--i:0">Hi, I'm Coco!</h1>
       <p style="--i:1" class="load lead">I'm an illustrator and artist who has been exploring Generative AI and Machine Learning. I train LoRAs, run tabletop campaigns, and make simple tools for both.</p>
       <nav style="--i:2" class="load links" aria-label="Find me elsewhere">
-        <a class="pill" href="https://github.com/cococolacake"><span class="pill-ico"><span class="logo" style="--logo: url(assets/github-logo.svg)"></span></span>GitHub</a>
-        <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="pill-ico pill-app"><img src="assets/lora-studio-icon.png" alt=""></span>LoRA Studio</a>
-        <a class="pill" href="https://github.com/cococolacake/lore-studio"><span class="pill-ico pill-app"><img src="assets/lore-studio-icon.png" alt=""></span>Lore Studio</a>
+        <a class="pill" href="https://github.com/cococolacake"><span class="pill-ico pill-app"><img class="gh" src="assets/github-logo.svg" alt="" width="16" height="16"></span>GitHub</a>
+        <a class="pill" href="https://github.com/cococolacake/lora-studio"><span class="pill-ico pill-app"><svg class="app-line" viewBox="0 0 512 512" aria-hidden="true"><rect x="56" y="56" width="400" height="400" rx="112" fill="none" stroke="currentColor" stroke-width="22"/><g transform="translate(256 262) scale(1.25) translate(-256 -266)" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="236" r="7" fill="currentColor" stroke-width="26"/><path d="M308 236 H360"/><path d="M222 292 Q256 330 290 292"/></g></svg></span>LoRA Studio</a>
+        <a class="pill" href="https://github.com/cococolacake/lore-studio"><span class="pill-ico pill-app"><svg class="app-line" viewBox="60 60 392 404" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M256 84 L256 184 M101.8 173 L256 184 M410.2 173 L256 184 M101.8 173 L176.3 322 M101.8 351 L176.3 322 M256 440 L176.3 322 M410.2 173 L335.7 322 M410.2 351 L335.7 322 M256 440 L335.7 322" stroke-width="16"/><path d="M256 184 L335.7 322 L176.3 322Z" stroke-width="18"/><path d="M256 84 L410.2 173 L410.2 351 L256 440 L101.8 351 L101.8 173Z" stroke-width="24"/></g></svg></span>Lore Studio</a>
       </nav>
     </header>
 
@@ -315,7 +315,7 @@
       <div class="card project">
         <div>
           <div class="project-head">
-            <img src="assets/lora-studio-icon.png" alt="">
+            <span class="app-icon"><svg class="app-line" viewBox="0 0 512 512" aria-hidden="true"><rect x="56" y="56" width="400" height="400" rx="112" fill="none" stroke="currentColor" stroke-width="22"/><g transform="translate(256 262) scale(1.25) translate(-256 -266)" fill="none" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="236" r="7" fill="currentColor" stroke-width="26"/><path d="M308 236 H360"/><path d="M222 292 Q256 330 290 292"/></g></svg></span>
             <div>
               <h3>LoRA Studio</h3>
               <p class="sub">Windows &amp; Linux · free &amp; open source</p>
@@ -334,7 +334,7 @@
       <div class="card project">
         <div>
           <div class="project-head">
-            <img src="assets/lore-studio-icon.png" alt="">
+            <span class="app-icon"><svg class="app-line" viewBox="60 60 392 404" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M256 84 L256 184 M101.8 173 L256 184 M410.2 173 L256 184 M101.8 173 L176.3 322 M101.8 351 L176.3 322 M256 440 L176.3 322 M410.2 173 L335.7 322 M410.2 351 L335.7 322 M256 440 L335.7 322" stroke-width="16"/><path d="M256 184 L335.7 322 L176.3 322Z" stroke-width="18"/><path d="M256 84 L410.2 173 L410.2 351 L256 440 L101.8 351 L101.8 173Z" stroke-width="24"/></g></svg></span>
             <div>
               <h3>Lore Studio</h3>
               <p class="sub">Windows &amp; Linux · free &amp; open source</p>
