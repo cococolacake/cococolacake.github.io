@@ -1,6 +1,6 @@
 # cococolacake.party
 
-Coco's website: one `index.html` and an `assets/` folder, hosted on Cloudflare at cococolacake.party. GitHub Pages stays off. No build step, tests or releases. This file is how each change gets made.
+Coco's website: one `index.html` and an `assets/` folder, served by GitHub Pages from `main` at cococolacake.party. Cloudflare is the domain registrar and DNS only. No build step, tests or releases. This file is how each change gets made.
 
 ## Workflow
 
